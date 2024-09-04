@@ -101,6 +101,8 @@ const arrayOfObjects = [
   },
 ]
 
+module.exports = {arrayOfObjects}
+
 //    Given the dataset of individuals, write a function that accesses and returns the email addresses of all individuals.
 
 //    Implement a function that retrieves and prints the hobbies of individuals with a specific age, say 30 years old.

@@ -18,5 +18,20 @@ function getHobbies(arrayOfObjects, age) {
   }
 }
 
+function getAusStudentName(arrayOfObjects){
+    let studentName = []
+    for(let i = 0; i < arrayOfObjects.length; i++){
+        if(arrayOfObjects[i].isStudent && arrayOfObjects[i].country === "Australia" ){
+            studentName.push(arrayOfObjects[i].name)
+        }
+    }
+    return studentName
+}
 
-module.exports = { returnMails, getHobbies }
+function getNameAndCity(arrayOfObjects, ind){
+    const ans = [arrayOfObjects[ind].name, arrayOfObjects[ind].city]
+    return ans
+}
+
+
+module.exports = { returnMails, getHobbies, getAusStudentName, getNameAndCity }
