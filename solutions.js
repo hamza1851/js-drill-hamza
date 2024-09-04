@@ -33,5 +33,19 @@ function getNameAndCity(arrayOfObjects, ind){
     return ans
 }
 
+function getNameAndAge(arrayOfObjects){
+    let ans = []
+    for(let i = 0; i < arrayOfObjects.length; i++){
+        ans.push(arrayOfObjects[i].age)
+    }
+    return ans
+}
 
-module.exports = { returnMails, getHobbies, getAusStudentName, getNameAndCity }
+
+module.exports = {
+  returnMails,
+  getHobbies,
+  getAusStudentName,
+  getNameAndCity,
+  getNameAndAge,
+}

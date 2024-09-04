@@ -3,6 +3,7 @@ const {
   getHobbies,
   getAusStudentName,
   getNameAndCity,
+  getNameAndAge,
 } = require("./solutions")
 
 const { arrayOfObjects } = require("./persons")
@@ -20,3 +21,10 @@ for (let i = 0; i < studentNames.length; i++) {
 
 const studNameCityAtInd = getNameAndCity(arrayOfObjects, 3)
 console.log(studNameCityAtInd[0], studNameCityAtInd[1])
+
+const ans = getNameAndAge(arrayOfObjects)
+for (let i = 0; i < ans.length; i++) {
+  console.log(ans[i])
+}
+
+
