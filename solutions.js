@@ -52,6 +52,14 @@ function getFirstHobby(arrayOfObjects) {
   return firstHobby
 }
 
+function getNamesAndEmails(arrayOfObjects, ageOfPerson){
+    const ans = []
+    for(let i = 0; i < arrayOfObjects.length; i++){
+        if(arrayOfObjects[i].age === 25) ans.push([arrayOfObjects[i].name, arrayOfObjects[i].email])
+    }
+    return ans
+}
+
 
 module.exports = {
   returnMails,
@@ -60,4 +68,5 @@ module.exports = {
   getNameAndCity,
   getNameAndAge,
   getFirstHobby,
+  getNamesAndEmails,
 }
