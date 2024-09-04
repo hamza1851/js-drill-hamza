@@ -1,4 +1,4 @@
-const {arrayOfObjects} = require("./persons.js")
+const { arrayOfObjects } = require("./persons.js")
 
 function returnMails(arrayOfObjects) {
   let personEmail = []
@@ -18,27 +18,38 @@ function getHobbies(arrayOfObjects, age) {
   }
 }
 
-function getAusStudentName(arrayOfObjects){
-    let studentName = []
-    for(let i = 0; i < arrayOfObjects.length; i++){
-        if(arrayOfObjects[i].isStudent && arrayOfObjects[i].country === "Australia" ){
-            studentName.push(arrayOfObjects[i].name)
-        }
+function getAusStudentName(arrayOfObjects) {
+  let studentName = []
+  for (let i = 0; i < arrayOfObjects.length; i++) {
+    if (
+      arrayOfObjects[i].isStudent &&
+      arrayOfObjects[i].country === "Australia"
+    ) {
+      studentName.push(arrayOfObjects[i].name)
     }
-    return studentName
+  }
+  return studentName
 }
 
-function getNameAndCity(arrayOfObjects, ind){
-    const ans = [arrayOfObjects[ind].name, arrayOfObjects[ind].city]
-    return ans
+function getNameAndCity(arrayOfObjects, ind) {
+  const ans = [arrayOfObjects[ind].name, arrayOfObjects[ind].city]
+  return ans
 }
 
-function getNameAndAge(arrayOfObjects){
-    let ans = []
-    for(let i = 0; i < arrayOfObjects.length; i++){
-        ans.push(arrayOfObjects[i].age)
-    }
-    return ans
+function getNameAndAge(arrayOfObjects) {
+  let ans = []
+  for (let i = 0; i < arrayOfObjects.length; i++) {
+    ans.push(arrayOfObjects[i].age)
+  }
+  return ans
+}
+
+function getFirstHobby(arrayOfObjects) {
+  const firstHobby = []
+  for (let i = 0; i < arrayOfObjects.length; i++) {
+    firstHobby.push(arrayOfObjects[i].hobbies[0])
+  }
+  return firstHobby
 }
 
 
@@ -48,4 +59,5 @@ module.exports = {
   getAusStudentName,
   getNameAndCity,
   getNameAndAge,
+  getFirstHobby,
 }
