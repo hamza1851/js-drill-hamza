@@ -60,6 +60,14 @@ function getNamesAndEmails(arrayOfObjects, ageOfPerson){
     return ans
 }
 
+function getCityAndCountry(arrayOfObjects){
+    const cityAndCountryNames = []
+    for(let i = 0; i < arrayOfObjects.length; i++){
+        cityAndCountryNames.push([arrayOfObjects[i].city, arrayOfObjects[i].country])
+    }
+    return cityAndCountryNames
+}
+
 
 module.exports = {
   returnMails,
@@ -69,4 +77,5 @@ module.exports = {
   getNameAndAge,
   getFirstHobby,
   getNamesAndEmails,
+  getCityAndCountry,
 }
