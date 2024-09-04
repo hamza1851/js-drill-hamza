@@ -1,11 +1,12 @@
+const arrayOfObjects = require("../persons.js")
+
 function getHobbies(arrayOfObjects, age) {
   for (const obj in arrayOfObjects) {
     if (arrayOfObjects[obj].age === age) {
-      console.log(arrayOfObjects[obj].hobbies)
+      // console.log(arrayOfObjects[obj].hobbies)
 
-      // return arrayOfObjects[obj].age
+      return arrayOfObjects[obj].hobbies
     }
   }
 }
-
-getHobbies(arrayOfObjects, 30)
+module.exports = {getHobbies}
