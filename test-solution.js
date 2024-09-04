@@ -17,6 +17,7 @@ console.log(personMails)
 const personHobbies = getHobbies(arrayOfObjects, 30)
 console.log(personHobbies)
 
+console.log("Australian")
 const studentNames = getAusStudentName(arrayOfObjects)
 for (let i = 0; i < studentNames.length; i++) {
   console.log(studentNames[i])
@@ -37,7 +38,7 @@ for (let i = 0; i < firstHobby.length; i++) {
 
 const nameAndEmail = getNamesAndEmails(arrayOfObjects, 25)
 for (let i = 0; i < nameAndEmail.length; i++) {
-  console.log(nameAndEmail[0], nameAndEmail[1])
+  console.log(nameAndEmail[i][0], nameAndEmail[i][1])
 }
 
 const cityAndCountryNames = getCityAndCountry(arrayOfObjects)
