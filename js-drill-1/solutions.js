@@ -1,6 +1,9 @@
-const { arrayOfObjects } = require("./persons.js")
+// const { arrayOfObjects } = require("./persons")
 
 function returnMails(arrayOfObjects) {
+  console.log(
+    "----------------------------Solution-1----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")
@@ -24,6 +27,9 @@ function returnMails(arrayOfObjects) {
 }
 
 function getHobbies(arrayOfObjects, age) {
+  console.log(
+    "----------------------------Solution-2----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")
@@ -44,6 +50,9 @@ function getHobbies(arrayOfObjects, age) {
 }
 
 function getAusStudentName(arrayOfObjects) {
+  console.log(
+    "----------------------------Solution-3----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")
@@ -71,6 +80,9 @@ function getAusStudentName(arrayOfObjects) {
 }
 
 function getNameAndCity(arrayOfObjects, ind) {
+  console.log(
+    "----------------------------Solution-4----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")
@@ -91,6 +103,9 @@ function getNameAndCity(arrayOfObjects, ind) {
 }
 
 function getNameAndAge(arrayOfObjects) {
+  console.log(
+    "----------------------------Solution-5----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")
@@ -113,6 +128,9 @@ function getNameAndAge(arrayOfObjects) {
 }
 
 function getFirstHobby(arrayOfObjects) {
+  console.log(
+    "----------------------------Solution-6----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")
@@ -135,6 +153,9 @@ function getFirstHobby(arrayOfObjects) {
 }
 
 function getNamesAndEmails(arrayOfObjects, ageOfPerson) {
+  console.log(
+    "----------------------------Solution-7----------------------------"
+  )
   const ans = []
   try {
     if (!Array.isArray(arrayOfObjects)) {
@@ -160,6 +181,9 @@ function getNamesAndEmails(arrayOfObjects, ageOfPerson) {
 }
 
 function getCityAndCountry(arrayOfObjects) {
+  console.log(
+    "----------------------------Solution-8----------------------------"
+  )
   try {
     if (!Array.isArray(arrayOfObjects)) {
       throw new Error("Array is not passed")

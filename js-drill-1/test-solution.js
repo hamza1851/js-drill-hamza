@@ -7,9 +7,9 @@ const {
   getFirstHobby,
   getNamesAndEmails,
   getCityAndCountry,
-} = require("./solutions")
+} = require("./solutions.js")
 
-const { arrayOfObjects } = require("./persons")
+const { arrayOfObjects } = require("./persons.js")
 
 const personMails = returnMails(arrayOfObjects)
 console.log(personMails)
