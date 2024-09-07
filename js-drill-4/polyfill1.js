@@ -41,6 +41,12 @@ function reduce(elements, cb, startingValue) {
   // Elements will be passed one by one into `cb` along with the `startingValue`.
   // `startingValue` should be the first argument passed to `cb` and the array element should be the second argument.
   // `startingValue` is the starting value.  If `startingValue` is undefined then make `elements[0]` the initial value.
+  startingValue = startingValue !== undefined ? startingValue : elements[i]
+
+  for (let i = 0; i < elements.length; i++) {
+    startingValue = cb(startingValue, elements[i])
+  }
+  return startingValue
 }
 
 function find(elements, cb) {
@@ -64,4 +70,4 @@ function flatten(elements) {
   // Example: flatten([1, [2], [3, [[4]]]]); => [1, 2, 3, 4];
 }
 
-module.exports = { items, each, map }
+module.exports = { items, each, map, reduce }
