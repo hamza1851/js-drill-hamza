@@ -2,7 +2,8 @@ const {
   items,
   each,
   map,
-  reduce
+  reduce,
+  find
 } = require("./polyfill1")
 
 console.log(
@@ -22,3 +23,10 @@ console.log(
 )
 const reduceNum = reduce(items, (acc, curr) => acc + curr, 0)
 console.log(`This is reducedNum: ${reduceNum}`)
+
+console.log(
+  "-------------------------------Find Function-------------------------------"
+)
+const elemToFind = 15
+const getNum = find(items, (elem) => elem === elemToFind)
+console.log(getNum)
