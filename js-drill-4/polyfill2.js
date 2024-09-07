@@ -21,11 +21,24 @@ function values(obj) {
   // Return all of the values of the object's own properties.
   // Ignore functions
   // http://underscorejs.org/#values
+  const key = keys(obj)
+  const temp = []
+  for(let i = 0; i < key.length; i++){
+    temp.push(obj[key[i]])
+  }
+  return temp
 }
 
 function mapObject(obj, cb) {
   // Like map for arrays, but for objects. Transform the value of each property in turn by passing it to the callback function.
   // http://underscorejs.org/#mapObject
+  const temp = {}
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      temp[key] = cb(obj[key])
+    }
+  }
+  return temp
 }
 
 function pairs(obj) {
@@ -47,4 +60,4 @@ function defaults(obj, defaultProps) {
   // http://underscorejs.org/#defaults
 }
 
-module.exports = { testObject, keys }
+module.exports = { testObject, keys, values, mapObject }
