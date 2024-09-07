@@ -63,6 +63,11 @@ function filter(elements, cb) {
   // Do NOT use .filter, to complete this function.
   // Similar to `find` but you will return an array of all elements that passed the truth test
   // Return an empty array if no elements pass the truth test
+  const temp = []
+  for (let i = 0; i < elements.length; i++) {
+    if (cb(elements[i], i, elements)) temp.push(elements[i])
+  }
+  return temp
 }
 
 const nestedArray = [1, [2], [[3]], [[[4]]]] // use this to test 'flatten'
@@ -73,4 +78,4 @@ function flatten(elements) {
   // Example: flatten([1, [2], [3, [[4]]]]); => [1, 2, 3, 4];
 }
 
-module.exports = { items, each, map, reduce, find }
+module.exports = { items, each, map, reduce, find, filter }

@@ -1,10 +1,4 @@
-const {
-  items,
-  each,
-  map,
-  reduce,
-  find
-} = require("./polyfill1")
+const { items, each, map, reduce, find, filter } = require("./polyfill1")
 
 console.log(
   "-------------------------------Each Function-------------------------------"
@@ -30,3 +24,9 @@ console.log(
 const elemToFind = 15
 const getNum = find(items, (elem) => elem === elemToFind)
 console.log(getNum)
+
+console.log(
+  "-------------------------------Filter Function-------------------------------"
+)
+const filteredNum = filter(items, (x) => x % 2 === 0)
+console.log(filteredNum)
