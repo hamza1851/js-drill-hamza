@@ -23,11 +23,16 @@ function each(elements, cb) {
   return temp
 }
 
-function map(elements, cb) {
+function map(element, cb) {
   // Do NOT use .map, to complete this function.
   // How map works: Map calls a provided callback function once for each element in an array, in order, and functionructs a new array from the res .
   // Produces a new array of values by mapping each value in list through a transformation function (iteratee).
   // Return the new array.
+  let temp = []
+  for (let i = 0; i < element.length; i++) {
+    temp.push(cb(element[i], i, element))
+  }
+  return temp
 }
 
 function reduce(elements, cb, startingValue) {
@@ -59,4 +64,4 @@ function flatten(elements) {
   // Example: flatten([1, [2], [3, [[4]]]]); => [1, 2, 3, 4];
 }
 
-module.exports = {items, each}
+module.exports = { items, each, map }
