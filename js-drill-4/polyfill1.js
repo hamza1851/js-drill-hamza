@@ -76,6 +76,22 @@ function flatten(elements) {
   // Flattens a nested array (the nesting can be to any depth).
   // Hint: You can solve this using recursion.
   // Example: flatten([1, [2], [3, [[4]]]]); => [1, 2, 3, 4];
+  let temp = []
+
+  for (let i = 0; i < elements.length; i++) {
+    if (Array.isArray(elements[i])) temp = temp.concat(flatten(elements[i]))
+    else temp.push(elements[i])
+  }
+  return temp
 }
 
-module.exports = { items, each, map, reduce, find, filter }
+module.exports = {
+  items,
+  nestedArray,
+  each,
+  map,
+  reduce,
+  find,
+  filter,
+  flatten,
+}

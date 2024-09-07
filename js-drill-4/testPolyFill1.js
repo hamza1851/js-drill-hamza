@@ -1,4 +1,4 @@
-const { items, each, map, reduce, find, filter } = require("./polyfill1")
+const { items,nestedArray, each, map, reduce, find, filter, flatten } = require("./polyfill1")
 
 console.log(
   "-------------------------------Each Function-------------------------------"
@@ -30,3 +30,9 @@ console.log(
 )
 const filteredNum = filter(items, (x) => x % 2 === 0)
 console.log(filteredNum)
+
+console.log(
+  "-------------------------------Flatten Function-------------------------------"
+)
+const flattenArray = flatten(nestedArray)
+console.log(flattenArray)
