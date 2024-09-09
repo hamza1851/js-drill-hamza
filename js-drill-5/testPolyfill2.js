@@ -1,5 +1,4 @@
-const { testObject, keys, values, mapObject } = require("./polyfill2")
-
+const { testObject, keys, values, mapObject, pairs } = require("./polyfill2")
 
 console.log("----------------------Keys Function----------------------")
 const keyOfObject = keys(testObject)
@@ -11,5 +10,13 @@ console.log(val)
 
 console.log("----------------------Map Object Function----------------------")
 
-const mappedObj = mapObject(testObject, (value) => value.toString().toUpperCase())
+const mappedObj = mapObject(testObject, (value) =>
+  value.toString().toUpperCase()
+)
 console.log(mappedObj)
+
+console.log("----------------------Map Object Function----------------------")
+const keyValPair = pairs(testObject)
+for(let pairs of keyValPair){
+    console.log(pairs)
+}

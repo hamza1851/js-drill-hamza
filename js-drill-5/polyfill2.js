@@ -10,8 +10,8 @@ function keys(obj) {
   // Retrieve all the names of the object's properties.
   // Return the keys as strings in an array.
   // Based on http://underscorejs.org/#keys
-  const temp  = []
-  for(let key in obj){
+  const temp = []
+  for (let key in obj) {
     temp.push(key)
   }
   return temp
@@ -23,7 +23,7 @@ function values(obj) {
   // http://underscorejs.org/#values
   const key = keys(obj)
   const temp = []
-  for(let i = 0; i < key.length; i++){
+  for (let i = 0; i < key.length; i++) {
     temp.push(obj[key[i]])
   }
   return temp
@@ -44,6 +44,11 @@ function mapObject(obj, cb) {
 function pairs(obj) {
   // Convert an object into a list of [key, value] pairs.
   // http://underscorejs.org/#pairs
+  const temp = []
+  for (let key in testObject) {
+    temp.push([key, testObject[key]])
+  }
+  return temp
 }
 
 /* STRETCH PROBLEMS */
@@ -60,4 +65,4 @@ function defaults(obj, defaultProps) {
   // http://underscorejs.org/#defaults
 }
 
-module.exports = { testObject, keys, values, mapObject }
+module.exports = { testObject, keys, values, mapObject, pairs }
