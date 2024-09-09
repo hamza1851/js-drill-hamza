@@ -5,6 +5,7 @@ const {
   mapObject,
   pairs,
   invert,
+  defaults,
 } = require("./polyfill2")
 
 console.log("----------------------Keys Function----------------------")
@@ -31,3 +32,9 @@ for(let pairs of keyValPair){
 console.log("----------------------Invert Function----------------------")
 const invertedObj = invert(testObject)
 console.log(invertedObj)
+
+
+const defaultProps = {superHeroName : "Bat Man", lasMovie: "Justice League", age: 36, superPower: "Money"}
+console.log("----------------------Defaults Function----------------------")
+const newObj = defaults(testObject, defaultProps)
+console.log(newObj)
