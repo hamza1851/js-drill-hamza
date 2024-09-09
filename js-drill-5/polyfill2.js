@@ -45,8 +45,8 @@ function pairs(obj) {
   // Convert an object into a list of [key, value] pairs.
   // http://underscorejs.org/#pairs
   const temp = []
-  for (let key in testObject) {
-    temp.push([key, testObject[key]])
+  for (let key in obj) {
+    temp.push([key, obj[key]])
   }
   return temp
 }
@@ -57,6 +57,11 @@ function invert(obj) {
   // Returns a copy of the object where the keys have become the values and the values the keys.
   // Assume that all of the object's values will be unique and string serializable.
   // http://underscorejs.org/#invert
+  const temp = {}
+  for(let key in obj){
+    temp[obj[key]] = key
+  }
+  return temp
 }
 
 function defaults(obj, defaultProps) {
@@ -65,4 +70,4 @@ function defaults(obj, defaultProps) {
   // http://underscorejs.org/#defaults
 }
 
-module.exports = { testObject, keys, values, mapObject, pairs }
+module.exports = { testObject, keys, values, mapObject, pairs, invert }
