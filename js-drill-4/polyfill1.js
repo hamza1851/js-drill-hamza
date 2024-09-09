@@ -16,11 +16,10 @@ function each(elements, cb) {
   // This only needs to work with arrays.
   // You should also pass the index into `cb` as the second argument
   // based off http://underscorejs.org/#each
-  let temp = []
   for (let i = 0; i < elements.length; i++) {
-    temp.push(cb(elements[i], i, elements))
+    cb(elements[i], i, elements)
   }
-  return temp
+  return
 }
 
 function map(element, cb) {
@@ -41,12 +40,13 @@ function reduce(elements, cb, startingValue) {
   // Elements will be passed one by one into `cb` along with the `startingValue`.
   // `startingValue` should be the first argument passed to `cb` and the array element should be the second argument.
   // `startingValue` is the starting value.  If `startingValue` is undefined then make `elements[0]` the initial value.
-  startingValue = startingValue !== undefined ? startingValue : elements[i]
+  let accumulator = startingValue !== undefined ? startingValue : elements[0]
+  let i = startingValue !== undefined ? 0 : 1
 
-  for (let i = 0; i < elements.length; i++) {
-    startingValue = cb(startingValue, elements[i])
+  for (; i < elements.length; i++) {
+    accumulator = cb(accumulator, elements[i])
   }
-  return startingValue
+  return accumulator
 }
 
 function find(elements, cb) {

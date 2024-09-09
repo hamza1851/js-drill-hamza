@@ -12,7 +12,7 @@ console.log("----------------------Keys Function----------------------")
 const keyOfObject = keys(testObject)
 console.log(keyOfObject)
 
-console.log("----------------------Keys Function----------------------")
+console.log("----------------------Value Function----------------------")
 const val = values(testObject)
 console.log(val)
 

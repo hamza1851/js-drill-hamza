@@ -35,7 +35,7 @@ function mapObject(obj, cb) {
   const temp = {}
   for (let key in obj) {
     if (obj.hasOwnProperty(key)) {
-      temp[key] = cb(obj[key])
+      temp[key] = cb(obj[key], key)
     }
   }
   return temp

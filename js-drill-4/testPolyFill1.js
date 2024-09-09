@@ -1,10 +1,19 @@
-const { items,nestedArray, each, map, reduce, find, filter, flatten } = require("./polyfill1")
+const {
+  items,
+  nestedArray,
+  each,
+  map,
+  reduce,
+  find,
+  filter,
+  flatten,
+} = require("./polyfill1")
 
 console.log(
   "-------------------------------Each Function-------------------------------"
 )
-const myEach = each(items, (num) => num * 2)
-console.log(myEach)
+each(items, (num, idx, elements) => (elements[idx] = num * 2))
+console.log(items)
 
 console.log(
   "-------------------------------Map Function-------------------------------"
@@ -15,7 +24,7 @@ console.log(myMap)
 console.log(
   "-------------------------------Reduce Function-------------------------------"
 )
-const reduceNum = reduce(items, (acc, curr) => acc + curr, 0)
+const reduceNum = reduce(items, (acc, curr) => acc + curr, 5)
 console.log(`This is reducedNum: ${reduceNum}`)
 
 console.log(
