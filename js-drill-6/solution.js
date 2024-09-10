@@ -21,6 +21,13 @@ function limitFunctionCallCount(cb, n) {
   // Should return a function that invokes `cb`.
   // The returned function should only allow `cb` to be invoked `n` times.
   // Returning null is acceptable if cb can't be returned
+  let count = 0
+  return function limit(...args) {
+    if (count < n) {
+      count++
+      return cb(args)
+    } else return null
+  }
 }
 
 
@@ -33,6 +40,9 @@ function cacheFunction(cb) {
   // `cb` should only ever be invoked once for a given set of arguments.
   
 }
+
+
+
 
 
 

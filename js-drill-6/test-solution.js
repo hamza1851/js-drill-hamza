@@ -17,3 +17,10 @@ num.decrement()
 console.log(num.decrement())
 
 
+console.log("--------------------Limit Function--------------------")
+
+let limit = limitFunctionCallCount((x) => x * 3, 3)
+console.log(limit(3))
+console.log(limit(12))
+console.log(limit(32))
+console.log(limit(7))
