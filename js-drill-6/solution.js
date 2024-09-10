@@ -16,7 +16,6 @@ function counterFactory() {
   return obj
 }
 
-
 function limitFunctionCallCount(cb, n) {
   // Should return a function that invokes `cb`.
   // The returned function should only allow `cb` to be invoked `n` times.
@@ -30,7 +29,6 @@ function limitFunctionCallCount(cb, n) {
   }
 }
 
-
 function cacheFunction(cb) {
   // Should return a function that invokes `cb`.
   // A cache (object) should be kept in closure scope.
@@ -38,12 +36,21 @@ function cacheFunction(cb) {
   // If the returned function is invoked with arguments that it has already seen
   // then it should return the cached result and not invoke `cb` again.
   // `cb` should only ever be invoked once for a given set of arguments.
-  
+  let cache = {}
+
+  return function sol(...args) {
+    const key = JSON.stringify(args)
+
+    if (cache.hasOwnProperty(key)) {
+      console.log("Cached Answer Returned")
+      return cache[key]
+    } else {
+      console.log("Uncached")
+      const result = cb(...args)
+      cache[key] = result
+      return result
+    }
+  }
 }
 
-
-
-
-
-
-export {counterFactory, limitFunctionCallCount, cacheFunction}
+export { counterFactory, limitFunctionCallCount, cacheFunction }
