@@ -1,4 +1,4 @@
-const {
+import {
   returnMails,
   getHobbies,
   getAusStudentName,
@@ -7,9 +7,9 @@ const {
   getFirstHobby,
   getNamesAndEmails,
   getCityAndCountry,
-} = require("./solutions.js")
+} from "./solutions.js"
 
-const { arrayOfObjects } = require("./persons.js")
+import { arrayOfObjects } from "./persons.js"
 
 const personMails = returnMails(arrayOfObjects)
 console.log(personMails)

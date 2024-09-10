@@ -85,13 +85,4 @@ function flatten(elements) {
   return temp
 }
 
-module.exports = {
-  items,
-  nestedArray,
-  each,
-  map,
-  reduce,
-  find,
-  filter,
-  flatten,
-}
+export { items, nestedArray, each, map, reduce, find, filter, flatten }

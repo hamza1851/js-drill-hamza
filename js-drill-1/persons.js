@@ -100,8 +100,7 @@ const arrayOfObjects = [
     isStudent: true,
   },
 ]
-
-module.exports = {arrayOfObjects}
+export {arrayOfObjects}
 
 //1    Given the dataset of individuals, write a function that accesses and returns the email addresses of all individuals.
 

@@ -1,10 +1,10 @@
-const {
+import users  from "./users.js"
+import {
   interestGames,
   userInGermany,
   userWithMasterDeg,
   userBasedOnProgLang,
-} = require("./solutions")
-const { users } = require("./users")
+} from "./solutions.js"
 
 console.log("-------Question-1---------")
 const names = interestGames(users)

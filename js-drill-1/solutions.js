@@ -208,7 +208,7 @@ function getCityAndCountry(arrayOfObjects) {
   }
 }
 
-module.exports = {
+export {
   returnMails,
   getHobbies,
   getAusStudentName,

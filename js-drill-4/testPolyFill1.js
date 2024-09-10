@@ -1,4 +1,4 @@
-const {
+import {
   items,
   nestedArray,
   each,
@@ -7,7 +7,7 @@ const {
   find,
   filter,
   flatten,
-} = require("./polyfill1")
+} from "./polyfill1.js"
 
 console.log(
   "-------------------------------Each Function-------------------------------"

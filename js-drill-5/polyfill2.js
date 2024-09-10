@@ -76,7 +76,7 @@ function defaults(obj, defaultProps) {
   return obj
 }
 
-module.exports = {
+export{
   testObject,
   keys,
   values,

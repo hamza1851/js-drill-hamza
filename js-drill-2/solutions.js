@@ -1,14 +1,12 @@
-const { users } = require("./users.js")
-
 function interestGames(usersObj) {
   if (!usersObj || typeof usersObj !== "object") return "Send user data"
   if (!Object.keys(usersObj)) return "Property does not exist"
 
   const namesArr = Object.keys(usersObj)
   for (let i = 0; i < namesArr.length; i++) {
-    if (!users[namesArr[i]].interests[0]) continue
+    if (!usersObj[namesArr[i]].interests[0]) continue
 
-    const interestArr = users[namesArr[i]].interests[0]
+    const interestArr = usersObj[namesArr[i]].interests[0]
     const myRegex = /Video Games/i
     if (myRegex.test(interestArr)) {
       return namesArr[i]
@@ -77,9 +75,4 @@ function userBasedOnProgLang(usersObj) {
   return { pythonUsers, golangUsers, jsUsers }
 }
 
-module.exports = {
-  interestGames,
-  userInGermany,
-  userWithMasterDeg,
-  userBasedOnProgLang,
-}
+export { interestGames, userInGermany, userWithMasterDeg, userBasedOnProgLang }

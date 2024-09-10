@@ -1,12 +1,12 @@
-const inventory = require("./inventory.js")
-const {
+import inventory from "./inventory.js"
+import {
   findCarById,
   getLastCar,
   sortCarModels,
   getCarYears,
   getOlderCars,
   findBMWAndAudiCars,
-} = require("./solutions.js")
+} from "./solutions.js"
 
 console.log("----------------Questions-1----------------")
 

@@ -120,7 +120,7 @@ function findBMWAndAudiCars(inventory) {
   return bmwAndAudiCars
 }
 
-module.exports = {
+export {
   findCarById,
   getLastCar,
   sortCarModels,
