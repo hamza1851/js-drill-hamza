@@ -12,7 +12,9 @@ import {
 console.log(
   "-------------------------------Each Function-------------------------------"
 )
-each(items, (num, idx, elements) => (elements[idx] = num * 2))
+each(items, (num, idx, elements) =>
+  console.log(`Element at index ${idx} is ${num}`)
+)
 console.log(items)
 
 console.log(
@@ -30,7 +32,7 @@ console.log(`This is reducedNum: ${reduceNum}`)
 console.log(
   "-------------------------------Find Function-------------------------------"
 )
-const elemToFind = 15
+const elemToFind = 3
 const getNum = find(items, (elem) => elem === elemToFind)
 console.log(getNum)
 
