@@ -9,56 +9,49 @@ import path from "path"
         2. Delete those files simultaneously 
 */
 
-function createDirectory(directoryPath, directoryName) {
-  return new Promise((resolve, reject) => {
-    const directoryNameAndPath = path.join(directoryPath, directoryName)
+function createDirectory(directoryPath, directoryName, callback) {
+  const directoryNameAndPath = path.join(directoryPath, directoryName)
 
-    // Create the directory if it doesn't exist
-    fs.mkdir(directoryNameAndPath, { recursive: true }, (error) => {
-      if (error) {
-        return reject(error)
-      }
-      resolve(`Directory created successfully: ${directoryNameAndPath}`)
-    })
-  })
-}
-
-function createMultipleFiles(directoryPath, numberOfFiles) {
-  return new Promise((resolve, reject) => {
-    let completed = 0 // Counter to track completed file creations
-    const errors = [] // Store errors if any
-
-    for (let i = 1; i <= numberOfFiles; i++) {
-      const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
-      const content = JSON.stringify({
-        message: `This is the file random-file-${i}`,
-      })
-
-      fs.writeFile(filenameAndPath, content, (err) => {
-        if (err) {
-          errors.push(err) // Collect error
-        }
-
-        completed++ // Increment the completed counter
-
-        // Resolve if all files are created
-        if (completed === numberOfFiles) {
-          if (errors.length > 0) {
-            return reject(errors) // Reject if there are any errors
-          }
-          resolve(`All ${numberOfFiles} files created successfully.`)
-        }
-      })
+  // Create the directory if it doesn't exist
+  fs.mkdir(directoryNameAndPath, { recursive: true }, (error) => {
+    if (error) {
+      return callback(error) // if error occurs
     }
+    callback(null, `Directory created successfully: ${directoryNameAndPath}`)
   })
 }
 
-function deleteDirectory(directoryPathAndName) {
-  return new Promise((resolve, reject) => {
-    fs.rm(directoryPathAndName, { recursive: true, force: true }, (err) => {
-      if (err) return reject(err)
-      resolve(`Directory ${directoryPathAndName} deleted successfully`)
+function createMultipleFiles(directoryPath, numberOfFiles, callback) {
+  let completed = 0 // Counter to track completed file creations
+  const errors = [] // Store errors if any
+
+  for (let i = 1; i <= numberOfFiles; i++) {
+    const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
+    const content = JSON.stringify({
+      message: `This is the file random-file-${i}`,
     })
+
+    fs.writeFile(filenameAndPath, content, (err) => {
+      if (err) {
+        errors.push(err) // Collect error
+      }
+
+      completed++ // Increment the completed counter
+
+      if (completed === numberOfFiles) {
+        if (errors.length > 0) {
+          return callback(errors) // if errors occurs
+        }
+        callback(null, `All ${numberOfFiles} files created successfully.`)
+      }
+    })
+  }
+}
+
+function deleteDirectory(directoryPathAndName, callback) {
+  fs.rm(directoryPathAndName, { recursive: true, force: true }, (err) => {
+    if (err) return callback(err)
+    callback(null, `Directory ${directoryPathAndName} deleted successfully`)
   })
 }
 
