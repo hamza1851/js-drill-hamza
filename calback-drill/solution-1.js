@@ -11,21 +11,46 @@ import path from "path"
 
 function createDirectory(directoryPath, directoryName) {
   return new Promise((resolve, reject) => {
-    // path will handle the creation of "path" according to the OS the programming running in
     const directoryNameAndPath = path.join(directoryPath, directoryName)
-    /* 
-    recursive: If the directory path includes some parent directories
-    which does not exist in the directory structure then those directory will be created
-    */
 
+    // Create the directory if it doesn't exist
     fs.mkdir(directoryNameAndPath, { recursive: true }, (error) => {
       if (error) {
         return reject(error)
       }
+      resolve(`Directory created successfully: ${directoryNameAndPath}`)
     })
-
-    resolve(`Directory created successfully: ${directoryNameAndPath}`)
   })
 }
 
-export { createDirectory }
+function createMultipleFiles(directoryPath, numberOfFiles) {
+  return new Promise((resolve, reject) => {
+    let completed = 0 // Counter to track completed file creations
+    const errors = [] // Store errors if any
+
+    for (let i = 1; i <= numberOfFiles; i++) {
+      const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
+      const content = JSON.stringify({
+        message: `This is the file random-file-${i}`,
+      })
+
+      fs.writeFile(filenameAndPath, content, (err) => {
+        if (err) {
+          errors.push(err) // Collect error
+        }
+
+        completed++ // Increment the completed counter
+
+        // Resolve if all files are created
+        if (completed === numberOfFiles) {
+          if (errors.length > 0) {
+            return reject(errors) // Reject if there are any errors
+          }
+          resolve(`All ${numberOfFiles} files created successfully.`)
+        }
+      })
+    }
+  })
+}
+
+export { createDirectory, createMultipleFiles }
