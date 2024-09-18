@@ -1,3 +1,4 @@
+import { rejects } from "assert"
 import fs from "fs"
 import path from "path"
 
@@ -53,4 +54,13 @@ function createMultipleFiles(directoryPath, numberOfFiles) {
   })
 }
 
-export { createDirectory, createMultipleFiles }
+function deleteDirectory(directoryPathAndName) {
+  return new Promise((resolve, reject) => {
+    fs.rm(directoryPathAndName, { recursive: true, force: true }, (err) => {
+      if (err) return reject(err)
+      resolve(`Directory ${directoryPathAndName} deleted successfully`)
+    })
+  })
+}
+
+export { createDirectory, createMultipleFiles, deleteDirectory }
