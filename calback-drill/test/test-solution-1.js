@@ -11,11 +11,17 @@ createDirectory("../", "random-JSON-files")
   })
   .then((message) => {
     console.log(message)
-    return deleteDirectory("../random-JSON-files")
-  })
-  .then((message) => {
-    console.log(message)
+    console.log("Deleting the directory...")
+    setTimeout(() => {
+      return deleteDirectory("../random-JSON-files")
+        .then((message) => {
+          console.log(message)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
+    }, 5000)
   })
   .catch((err) => {
-    console.error(err)
+    console.log(err)
   })
