@@ -1,3 +1,0 @@
-../output/uppercaseContent.txt
-../output/splittedLowercaseContent.txt
-../output/sortedContent.txt

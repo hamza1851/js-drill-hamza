@@ -163,4 +163,23 @@ function readThenSort(filenameAndPath, locationToStore, callback) {
   })
 }
 
-export { createFile, readToUpperCase, readToLowerCase, readThenSort }
+function deleteTheFilesByFilenames(nameCollectionFile, callback) {
+  fs.readFile(nameCollectionFile, "utf-8", (error, data) => {
+    if (error) return callback(error)
+    const fileNames = data.split("\n")
+    fileNames.forEach((filename) => {
+      if (filename !== "")
+        fs.unlink(filename, (err) => {
+          return callback(null, "All files deleted successfully")
+        })
+    })
+  })
+}
+
+export {
+  createFile,
+  readToUpperCase,
+  readToLowerCase,
+  readThenSort,
+  deleteTheFilesByFilenames,
+}

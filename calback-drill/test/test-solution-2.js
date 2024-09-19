@@ -3,6 +3,7 @@ import {
   createFile,
   readToLowerCase,
   readThenSort,
+  deleteTheFilesByFilenames,
 } from "../solution-2.js"
 
 createFile("../output", "lipsum", "txt", (err, msg) => {
@@ -30,7 +31,16 @@ createFile("../output", "lipsum", "txt", (err, msg) => {
             "../output/sortedContent.txt",
             (error, message) => {
               if (error) return console.log(error)
-              return console.log(message)
+              console.log(message)
+              return setTimeout(() => {
+                deleteTheFilesByFilenames(
+                  "../output/filenames.txt",
+                  (err, msg) => {
+                    if (err) return console.log(err)
+                    return console.log(msg)
+                  }
+                )
+              }, 5000)
             }
           )
         }
