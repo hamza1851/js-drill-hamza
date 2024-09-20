@@ -142,8 +142,7 @@ function readThenSort(filenameAndPath, locationToStore, callback) {
     // Writing into sortedContent.txt
     fs.writeFile(locationToStore, sortedContent.join("\n"), (error) => {
       if (error) return callback(error)
-      callback(
-        null,
+      console.log(
         `Sorted the content of ${filenameAndPath} and stored into ${locationToStore}`
       )
       // Storing the file name
@@ -152,7 +151,7 @@ function readThenSort(filenameAndPath, locationToStore, callback) {
         locationToStore + "\n",
         { flag: "a", encoding: "utf-8" }, // flag 'a' opens the file for appending
         (error) => {
-          if (error) return callback(error)
+          if (error) return console.log(error)
           return callback(
             null,
             `Stored the path of ${locationToStore} in to filenames.txt`
@@ -165,14 +164,33 @@ function readThenSort(filenameAndPath, locationToStore, callback) {
 
 function deleteTheFilesByFilenames(nameCollectionFile, callback) {
   fs.readFile(nameCollectionFile, "utf-8", (error, data) => {
-    if (error) return callback(error)
-    const fileNames = data.split("\n")
+    if (error) {
+      return callback(error)
+    }
+
+    const fileNames = data.split("\n").filter((filename) => filename !== "")
+
+    if (fileNames.length === 0) {
+      return callback(null, "No files to delete.")
+    }
+    let filesDeleted = 0
+    let errors = []
+
     fileNames.forEach((filename) => {
-      if (filename !== "")
-        fs.unlink(filename, (err) => {
-          return callback(null, "All files deleted successfully")
-        })
+      fs.unlink(filename, (err) => {
+        if (err) {
+          errors.push(`Error deleting ${filename}: ${err.message}`)
+        }
+      })
+      filesDeleted++
+
+      if (filesDeleted === fileNames.length) {
+        if (errors.length > 0) {
+          callback(errors.join("\n"))
+        }
+      }
     })
+    callback(null, "All files deleted successfully")
   })
 }
 
