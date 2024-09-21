@@ -134,7 +134,7 @@ function readThenSort(filenameAndPath, locationToStore, callback) {
     // Sorting the content
     const sortedContent = data
       .split("\n")
-      .flatMap((line) => line.split(" ")) // it create the map then operate according to the callback and return the flatten array
+      // .flatMap((line) => line.split(" ")) // it create the map then operate according to the callback and return the flatten array
       .sort((a, b) => a.localeCompare(b)) //localCompare sorts the content alphabetically
 
     // console.log(sortedContent)
