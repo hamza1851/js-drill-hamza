@@ -113,7 +113,34 @@ const readThenSort = async (filenameAndPath, locationToStore) => {
   }
 }
 
-export { createFile, readToUpperCase, readToLowerCase, readThenSort }
+const deleteFilesFromFilenames = async (nameCollectionFile) => {
+  let fileDeleted = 0
+  const errors = []
+  const fileNames = (await fs.readFile(nameCollectionFile, "utf-8"))
+    .split("\n")
+    .filter((filename) => filename !== "")
+  for (let fileName of fileNames) {
+    try {
+      await fs.unlink(fileName)
+      fileDeleted++
+    } catch (error) {
+      errors.push(error)
+    }
+  }
+  if (fileDeleted === fileNames.length) {
+    if (errors.length > 0) return errors
+    await fs.writeFile(nameCollectionFile, "")
+    return `Deleted all ${fileNames.length} successfully`
+  }
+}
+
+export {
+  createFile,
+  readToUpperCase,
+  readToLowerCase,
+  readThenSort,
+  deleteFilesFromFilenames,
+}
 
 // import fs from "fs"
 // import path from "path"
