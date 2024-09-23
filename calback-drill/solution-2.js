@@ -80,7 +80,24 @@ const readToUpperCase = async (filenameAndPath, locationToStore) => {
   }
 }
 
-export { createFile, readToUpperCase}
+const readToLowerCase = async (filenameAndPath, locationToStore) => {
+  try {
+    const data = await fs.readFile(filenameAndPath, { encoding: "utf-8" })
+    const lowerCaseData = data.toLowerCase().split("\n")
+
+    await fs.writeFile(locationToStore, lowerCaseData.join("\n"))
+    await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+      flag: "a",
+      encoding: "utf-8",
+    })
+
+    return `Successfully converted data to lowercase!`
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { createFile, readToUpperCase, readToLowerCase }
 
 // import fs from "fs"
 // import path from "path"

@@ -1,4 +1,4 @@
-import { createFile, readToUpperCase } from "../solution-2.js"
+import { createFile, readToLowerCase, readToUpperCase } from "../solution-2.js"
 ;(async () => {
   try {
     const createFileMsg = await createFile("../output", "lipsum", "txt")
@@ -9,6 +9,12 @@ import { createFile, readToUpperCase } from "../solution-2.js"
       "../output/uppercaseContent.txt"
     )
     console.log(readToUpperCaseMsg)
+
+    const readToLowerCaseMsg = await readToLowerCase(
+      "../output/uppercaseContent.txt",
+      "../output/splittedLowercaseContent.txt"
+    )
+    console.log(readToLowerCaseMsg)
   } catch (error) {
     console.log(error)
   }
