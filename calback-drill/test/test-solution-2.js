@@ -1,4 +1,9 @@
-import { createFile, readToLowerCase, readToUpperCase } from "../solution-2.js"
+import {
+  createFile,
+  readThenSort,
+  readToLowerCase,
+  readToUpperCase,
+} from "../solution-2.js"
 ;(async () => {
   try {
     const createFileMsg = await createFile("../output", "lipsum", "txt")
@@ -15,6 +20,12 @@ import { createFile, readToLowerCase, readToUpperCase } from "../solution-2.js"
       "../output/splittedLowercaseContent.txt"
     )
     console.log(readToLowerCaseMsg)
+
+    const readThenSortMsg = await readThenSort(
+      "../output/splittedLowercaseContent.txt",
+      "../output/sortedContent.txt"
+    )
+    console.log(readThenSortMsg)
   } catch (error) {
     console.log(error)
   }

@@ -97,7 +97,23 @@ const readToLowerCase = async (filenameAndPath, locationToStore) => {
   }
 }
 
-export { createFile, readToUpperCase, readToLowerCase }
+const readThenSort = async (filenameAndPath, locationToStore) => {
+  try {
+    const data = await fs.readFile(filenameAndPath, "utf-8")
+    const sortedData = data.split("\n").sort((a, b) => a.localeCompare(b))
+
+    await fs.writeFile(locationToStore, sortedData.join("\n"))
+    await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+      flag: "a",
+      encoding: "utf-8",
+    })
+    return `Successfully sorted the content of ${filenameAndPath}`
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { createFile, readToUpperCase, readToLowerCase, readThenSort }
 
 // import fs from "fs"
 // import path from "path"
