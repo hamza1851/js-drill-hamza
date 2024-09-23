@@ -1,9 +1,15 @@
-import { createDirectory } from "../solution-1.js"
+import { createDirectory, createMultipleFiles } from "../solution-1.js"
 
 const testProblem1 = async () => {
   try {
     const dirCreationMsg = await createDirectory("../", "random-JSON-files")
     console.log(dirCreationMsg)
+
+    const filesCreationMsg = await createMultipleFiles(
+      "../random-JSON-files",
+      5
+    )
+    console.log(filesCreationMsg)
   } catch (error) {
     console.log(error)
   }

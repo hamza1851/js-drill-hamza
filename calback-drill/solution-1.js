@@ -20,7 +20,27 @@ const createDirectory = async (directoryPath, directoryName) => {
   }
 }
 
-export { createDirectory }
+const createMultipleFiles = async (directoryPath, numberOfFiles) => {
+  let completed = 0 // Counter to track completed file creations
+  const errors = [] // Store errors if any
+
+  for (let i = 1; i <= numberOfFiles; i++) {
+    const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
+    const content = JSON.stringify({
+      message: `This is the file random-file-${i}`,
+    })
+    try {
+      await fs.writeFile(filenameAndPath, content)
+      completed++
+    } catch (error) {
+      errors.push(error)
+    }
+  }
+  if (completed === numberOfFiles && errors.length > 0) return errors
+  return `Created all files successfully`
+}
+
+export { createDirectory, createMultipleFiles}
 
 // import fs from "fs"
 // import path from "path"
@@ -37,30 +57,30 @@ export { createDirectory }
 // }
 
 // function createMultipleFiles(directoryPath, numberOfFiles, callback) {
-//   let completed = 0 // Counter to track completed file creations
-//   const errors = [] // Store errors if any
+// let completed = 0 // Counter to track completed file creations
+// const errors = [] // Store errors if any
 
-//   for (let i = 1; i <= numberOfFiles; i++) {
-//     const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
-//     const content = JSON.stringify({
-//       message: `This is the file random-file-${i}`,
-//     })
+// for (let i = 1; i <= numberOfFiles; i++) {
+//   const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
+//   const content = JSON.stringify({
+//     message: `This is the file random-file-${i}`,
+//   })
 
-//     fs.writeFile(filenameAndPath, content, (err) => {
-//       if (err) {
-//         errors.push(err) // Collect error
+//   fs.writeFile(filenameAndPath, content, (err) => {
+//     if (err) {
+//       errors.push(err) // Collect error
+//     }
+
+//     completed++ // Increment the completed counter
+
+//     if (completed === numberOfFiles) {
+//       if (errors.length > 0) {
+//         return callback(errors) // if errors occurs
 //       }
-
-//       completed++ // Increment the completed counter
-
-//       if (completed === numberOfFiles) {
-//         if (errors.length > 0) {
-//           return callback(errors) // if errors occurs
-//         }
-//         callback(null, `All ${numberOfFiles} files created successfully.`)
-//       }
-//     })
-//   }
+//       callback(null, `All ${numberOfFiles} files created successfully.`)
+//     }
+//   })
+// }
 // }
 
 // function deleteDirectory(directoryPathAndName, callback) {
