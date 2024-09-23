@@ -13,6 +13,8 @@ const createDirectory = async (directoryPath, directoryName) => {
   const directoryNameAndPath = path.join(directoryPath, directoryName)
   // if the directory created successfully then return msg otherwise error
   try {
+    if (fs.access(directoryNameAndPath))
+      return "Warning: The directory already exist"
     await fs.mkdir(directoryNameAndPath)
     return `Directory created successfully: ${directoryNameAndPath}`
   } catch (error) {
@@ -36,11 +38,35 @@ const createMultipleFiles = async (directoryPath, numberOfFiles) => {
       errors.push(error)
     }
   }
-  if (completed === numberOfFiles && errors.length > 0) return errors
-  return `Created all files successfully`
+  if (completed === numberOfFiles) {
+    if (errors.length > 0) return errors
+    return `Created all files successfully`
+  }
 }
 
-export { createDirectory, createMultipleFiles}
+const deleteDirectoryFiles = async (directoryPathAndName) => {
+  let completed = 0
+  const errors = []
+
+  const files = await fs.readdir(directoryPathAndName)
+
+  for (const file of files) {
+    const filePath = path.join(directoryPathAndName, file)
+    try {
+      await fs.unlink(filePath)
+      completed++
+    } catch (error) {
+      errors.push(error)
+    }
+  }
+  if (completed === files.length) {
+    if (errors.length > 0) return errors
+
+    return "All files deleted successfully"
+  }
+}
+
+export { createDirectory, createMultipleFiles, deleteDirectoryFiles }
 
 // import fs from "fs"
 // import path from "path"

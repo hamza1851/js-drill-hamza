@@ -1,4 +1,8 @@
-import { createDirectory, createMultipleFiles } from "../solution-1.js"
+import {
+  createDirectory,
+  createMultipleFiles,
+  deleteDirectoryFiles,
+} from "../solution-1.js"
 
 const testProblem1 = async () => {
   try {
@@ -10,6 +14,13 @@ const testProblem1 = async () => {
       5
     )
     console.log(filesCreationMsg)
+
+    setTimeout(async () => {
+      const deletionOfFilesMsg = await deleteDirectoryFiles(
+        "../random-JSON-files"
+      )
+      console.log(deletionOfFilesMsg)
+    }, 3000)
   } catch (error) {
     console.log(error)
   }
