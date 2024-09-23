@@ -64,7 +64,23 @@ Thou shalt live in eternal summer.`
   }
 }
 
-export { createFile }
+const readToUpperCase = async (filenameAndPath, locationToStore) => {
+  try {
+    const data = await fs.readFile(filenameAndPath, "utf-8")
+    const upperCaseData = data.toUpperCase()
+    await fs.writeFile(locationToStore, upperCaseData)
+    await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+      flag: "a",
+      encoding: "utf-8",
+    })
+
+    return `Data converted to upper case successfully`
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export { createFile, readToUpperCase}
 
 // import fs from "fs"
 // import path from "path"
