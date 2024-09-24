@@ -3,6 +3,7 @@ import {
   readToUpperCase,
   readToLowerCase,
   readThenSort,
+  deleteFilesFromFilenames,
 } from "../problem-2.js"
 
 createFile("../output", "lipsum", "txt")
@@ -26,6 +27,10 @@ createFile("../output", "lipsum", "txt")
       "../output/splittedLowercaseContent.txt",
       "../output/sortedContent.txt"
     )
+  })
+  .then((msg) => {
+    console.log(msg)
+    return deleteFilesFromFilenames("../output/filenames.txt")
   })
   .then((msg) => {
     console.log(msg)

@@ -126,6 +126,34 @@ function readThenSort(filenameAndPath, locationToStore) {
     })
   })
 }
+function deleteFilesFromFilenames(nameCollectionFile) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(nameCollectionFile, "utf-8", (error, data) => {
+      if (error) {
+        reject(error)
+      } else {
+        const fileNames = data.split("\n").filter((filename) => filename !== "")
+        let filesDeleted = 0
+        let errors = []
 
+        fileNames.forEach((filename) => {
+          fs.unlink(filename, (err) => {
+            if (err) {
+              errors.push(`Error deleting ${filename}: ${err.message}`)
+            }
+            filesDeleted++
+            if (filesDeleted === fileNames.length) {
+              if (errors.length > 0) {
+                reject(errors.join("\n"))
+              } else {
+                resolve("All files deleted successfully.")
+              }
+            }
+          })
+        })
+      }
+    })
+  })
+}
 
-export { createFile , readToUpperCase, readToLowerCase, readThenSort}
+export { createFile, readToUpperCase, readToLowerCase, readThenSort, deleteFilesFromFilenames }
