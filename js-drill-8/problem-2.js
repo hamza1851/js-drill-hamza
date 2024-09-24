@@ -60,4 +60,37 @@ function readToUpperCase(filenameAndPath, locationToStore) {
     })
   })
 }
-export { createFile , readToUpperCase}
+
+function readToLowerCase(filenameAndPath, locationToStore) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filenameAndPath, "utf-8", (error, data) => {
+      if (error) {
+        reject(error)
+      } else {
+        const lowerCaseData = data.toLowerCase()
+        fs.writeFile(locationToStore, lowerCaseData, (error) => {
+          if (error) {
+            reject(error)
+          } else {
+            fs.writeFile(
+              "../output/filenames.txt",
+              locationToStore + "\n",
+              { flag: "a", encoding: "utf-8" },
+              (error) => {
+                if (error) {
+                  reject(error)
+                } else {
+                  resolve(
+                    `Converted ${filenameAndPath} to lowercase and stored in ${locationToStore}.`
+                  )
+                }
+              }
+            )
+          }
+        })
+      }
+    })
+  })
+}
+
+export { createFile , readToUpperCase, readToLowerCase}
