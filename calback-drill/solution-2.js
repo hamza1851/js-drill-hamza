@@ -37,7 +37,7 @@ FIXME:
         delete all the files mentioned in filename.txt
 */
 
-// ----------------------Third Iteration using promise constructor----------------------
+// ----------------------Third Iteration using fs/promises----------------------
 const fs = await import("fs/promises")
 const path = await import("path")
 
@@ -78,7 +78,7 @@ const readToUpperCase = (filenameAndPath, locationToStore) => {
       fs.writeFile(locationToStore, data)
     })
     .then(() => {
-      return fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+      fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
         flag: "a",
         encoding: "utf-8",
       })
@@ -86,9 +86,36 @@ const readToUpperCase = (filenameAndPath, locationToStore) => {
     .then(() => {
       return `${filenameAndPath} Converted to uppercase and filepath stored at filenames.txt`
     })
+    .catch((error) => {
+      return error
+    })
 }
 
-export { createFile, readToUpperCase }
+const readToLowerCase = (filenameAndPath, locationToStore) => {
+  return fs
+    .readFile(filenameAndPath, "utf-8")
+    .then((data) => {
+      return data.toLowerCase()
+    })
+    .then((data) => {
+      fs.writeFile(locationToStore, data)
+    })
+    .then(() => {
+      fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+        flag: "a",
+        encoding: "utf-8",
+      })
+    })
+    .then(() => {
+      return `${filenameAndPath} Converted to lowercase and filepath stored at filenames.txt`
+    })
+    .catch((error) => {
+      return error
+    })
+}
+
+
+export { createFile, readToUpperCase, readToLowerCase }
 
 // ----------------------Second Iteration using async await----------------------
 

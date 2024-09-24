@@ -1,4 +1,4 @@
-import { createFile, readToUpperCase } from "../solution-2.js"
+import { createFile, readToLowerCase, readToUpperCase } from "../solution-2.js"
 
 createFile("../output", "lipsum", "txt")
   .then((msg) => {
@@ -6,6 +6,13 @@ createFile("../output", "lipsum", "txt")
     return readToUpperCase(
       "../output/lipsum.txt",
       "../output/uppercaseContent.txt"
+    )
+  })
+  .then((msg) => {
+    console.log(msg)
+    return readToLowerCase(
+      "../output/uppercaseContent.txt",
+      "../output/splittedLowercaseContent.txt"
     )
   })
   .then((msg) => {
@@ -35,8 +42,8 @@ createFile("../output", "lipsum", "txt")
 //     console.log(readToUpperCaseMsg)
 
 //     const readToLowerCaseMsg = await readToLowerCase(
-//       "../output/uppercaseContent.txt",
-//       "../output/splittedLowercaseContent.txt"
+// "../output/uppercaseContent.txt",
+// "../output/splittedLowercaseContent.txt"
 //     )
 //     console.log(readToLowerCaseMsg)
 
