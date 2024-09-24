@@ -9,6 +9,8 @@
         5. Read the contents of filenames.txt and delete all the new files that are mentioned in that list simultaneously.
 */
 
+import { error } from "console"
+
 /*
 TODO:
         Create a file lipsum.txt
@@ -35,112 +37,169 @@ FIXME:
         delete all the files mentioned in filename.txt
 */
 
-const { default: fs } = await import("fs/promises")
+// ----------------------Third Iteration using promise constructor----------------------
+const fs = await import("fs/promises")
 const path = await import("path")
 
-const createFile = async (directoryPath, filename, fileType) => {
+const createFile = (directoryPath, filename, fileType) => {
   const filenameAndPath = path.join(directoryPath, `${filename}.${fileType}`)
   const content = `Shall I compare thee to a summer's day?
-Thou art more lovely and more temperate:
-Rough winds do shake the darling buds of May,
-And summer's lease hath all too short a date:
-Sometime too hot the eye of heaven shines,
-And often is his gold complexion dimmed;
-And every fair from fair sometime declines,
-By chance or nature's changing course untrimmed:
-But thy eternal summer shall not fade,
-Nor lose possession of that fair thou'st now;
-Nor shall Death brag thou wand'rest from the way,
-When Time shall age unrinded brow.
-No, when Death shall call thee from this earth,
-Thou shalt live in eternal summer.`
+  Thou art more lovely and more temperate:
+  Rough winds do shake the darling buds of May,
+  And summer's lease hath all too short a date:
+  Sometime too hot the eye of heaven shines,
+  And often is his gold complexion dimmed;
+  And every fair from fair sometime declines,
+  By chance or nature's changing course untrimmed:
+  But thy eternal summer shall not fade,
+  Nor lose possession of that fair thou'st now;
+  Nor shall Death brag thou wand'rest from the way,
+  When Time shall age unrinded brow.
+  No, when Death shall call thee from this earth,
+  Thou shalt live in eternal summer.`
 
-  try {
-    if (fs.access(filenameAndPath)) return "Warning: The file already exist"
-    await fs.writeFile(filenameAndPath, content)
-    return `File created successfully: ${filenameAndPath}`
-  } catch (error) {
-    throw new Error(error)
-  }
-}
-
-const readToUpperCase = async (filenameAndPath, locationToStore) => {
-  try {
-    const data = await fs.readFile(filenameAndPath, "utf-8")
-    const upperCaseData = data.toUpperCase()
-    await fs.writeFile(locationToStore, upperCaseData)
-    await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
-      flag: "a",
-      encoding: "utf-8",
+  return fs
+    .writeFile(filenameAndPath, content)
+    .then(() => {
+      return `File created successfully: ${filenameAndPath}`
     })
-
-    return `Data converted to upper case successfully`
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-const readToLowerCase = async (filenameAndPath, locationToStore) => {
-  try {
-    const data = await fs.readFile(filenameAndPath, { encoding: "utf-8" })
-    const lowerCaseData = data.toLowerCase().split("\n")
-
-    await fs.writeFile(locationToStore, lowerCaseData.join("\n"))
-    await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
-      flag: "a",
-      encoding: "utf-8",
+    .catch((error) => {
+      return error
     })
-
-    return `Successfully converted data to lowercase!`
-  } catch (error) {
-    console.log(error)
-  }
 }
 
-const readThenSort = async (filenameAndPath, locationToStore) => {
-  try {
-    const data = await fs.readFile(filenameAndPath, "utf-8")
-    const sortedData = data.split("\n").sort((a, b) => a.localeCompare(b))
-
-    await fs.writeFile(locationToStore, sortedData.join("\n"))
-    await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
-      flag: "a",
-      encoding: "utf-8",
+const readToUpperCase = (filenameAndPath, locationToStore) => {
+  return fs
+    .readFile(filenameAndPath, "utf-8")
+    .then((data) => {
+      return data.toUpperCase()
     })
-    return `Successfully sorted the content of ${filenameAndPath}`
-  } catch (error) {
-    console.log(error)
-  }
+    .then((data) => {
+      fs.writeFile(locationToStore, data)
+    })
+    .then(() => {
+      return fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+        flag: "a",
+        encoding: "utf-8",
+      })
+    })
+    .then(() => {
+      return `${filenameAndPath} Converted to uppercase and filepath stored at filenames.txt`
+    })
 }
 
-const deleteFilesFromFilenames = async (nameCollectionFile) => {
-  let fileDeleted = 0
-  const errors = []
-  const fileNames = (await fs.readFile(nameCollectionFile, "utf-8"))
-    .split("\n")
-    .filter((filename) => filename !== "")
-  for (let fileName of fileNames) {
-    try {
-      await fs.unlink(fileName)
-      fileDeleted++
-    } catch (error) {
-      errors.push(error)
-    }
-  }
-  if (fileDeleted === fileNames.length) {
-    if (errors.length > 0) return errors
-    await fs.writeFile(nameCollectionFile, "")
-    return `Deleted all ${fileNames.length} successfully`
-  }
-}
+export { createFile, readToUpperCase }
 
-export {
-  createFile,
-  readToUpperCase,
-  readToLowerCase,
-  readThenSort,
-  deleteFilesFromFilenames,
-}
+// ----------------------Second Iteration using async await----------------------
+
+// const { default: fs } = await import("fs/promises")
+// const path = await import("path")
+
+// const createFile = async (directoryPath, filename, fileType) => {
+// const filenameAndPath = path.join(directoryPath, `${filename}.${fileType}`)
+//   const content = `Shall I compare thee to a summer's day?
+// Thou art more lovely and more temperate:
+// Rough winds do shake the darling buds of May,
+// And summer's lease hath all too short a date:
+// Sometime too hot the eye of heaven shines,
+// And often is his gold complexion dimmed;
+// And every fair from fair sometime declines,
+// By chance or nature's changing course untrimmed:
+// But thy eternal summer shall not fade,
+// Nor lose possession of that fair thou'st now;
+// Nor shall Death brag thou wand'rest from the way,
+// When Time shall age unrinded brow.
+// No, when Death shall call thee from this earth,
+// Thou shalt live in eternal summer.`
+
+//   try {
+//     if (fs.access(filenameAndPath)) return "Warning: The file already exist"
+//     await fs.writeFile(filenameAndPath, content)
+//     return `File created successfully: ${filenameAndPath}`
+//   } catch (error) {
+//     throw new Error(error)
+//   }
+// }
+
+// const readToUpperCase = async (filenameAndPath, locationToStore) => {
+//   try {
+//     const data = await fs.readFile(filenameAndPath, "utf-8")
+//     const upperCaseData = data.toUpperCase()
+//     await fs.writeFile(locationToStore, upperCaseData)
+//     await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+//       flag: "a",
+//       encoding: "utf-8",
+//     })
+
+//     return `Data converted to upper case successfully`
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// const readToLowerCase = async (filenameAndPath, locationToStore) => {
+//   try {
+//     const data = await fs.readFile(filenameAndPath, { encoding: "utf-8" })
+//     const lowerCaseData = data.toLowerCase().split("\n")
+
+//     await fs.writeFile(locationToStore, lowerCaseData.join("\n"))
+//     await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+//       flag: "a",
+//       encoding: "utf-8",
+//     })
+
+//     return `Successfully converted data to lowercase!`
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// const readThenSort = async (filenameAndPath, locationToStore) => {
+//   try {
+//     const data = await fs.readFile(filenameAndPath, "utf-8")
+//     const sortedData = data.split("\n").sort((a, b) => a.localeCompare(b))
+
+//     await fs.writeFile(locationToStore, sortedData.join("\n"))
+//     await fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+//       flag: "a",
+//       encoding: "utf-8",
+//     })
+//     return `Successfully sorted the content of ${filenameAndPath}`
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+
+// const deleteFilesFromFilenames = async (nameCollectionFile) => {
+//   let fileDeleted = 0
+//   const errors = []
+//   const fileNames = (await fs.readFile(nameCollectionFile, "utf-8"))
+//     .split("\n")
+//     .filter((filename) => filename !== "")
+//   for (let fileName of fileNames) {
+//     try {
+//       await fs.unlink(fileName)
+//       fileDeleted++
+//     } catch (error) {
+//       errors.push(error)
+//     }
+//   }
+//   if (fileDeleted === fileNames.length) {
+//     if (errors.length > 0) return errors
+//     await fs.writeFile(nameCollectionFile, "")
+//     return `Deleted all ${fileNames.length} successfully`
+//   }
+// }
+
+// export {
+//   createFile,
+//   readToUpperCase,
+//   readToLowerCase,
+//   readThenSort,
+//   deleteFilesFromFilenames,
+// }
+
+// ----------------------First Iteration using callbacks----------------------
 
 // import fs from "fs"
 // import path from "path"

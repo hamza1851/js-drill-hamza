@@ -1,42 +1,60 @@
-import {
-  createFile,
-  readThenSort,
-  readToLowerCase,
-  readToUpperCase,
-  deleteFilesFromFilenames,
-} from "../solution-2.js"
-;(async () => {
-  try {
-    const createFileMsg = await createFile("../output", "lipsum", "txt")
-    console.log(createFileMsg)
+import { createFile, readToUpperCase } from "../solution-2.js"
 
-    const readToUpperCaseMsg = await readToUpperCase(
+createFile("../output", "lipsum", "txt")
+  .then((msg) => {
+    console.log(msg)
+    return readToUpperCase(
       "../output/lipsum.txt",
       "../output/uppercaseContent.txt"
     )
-    console.log(readToUpperCaseMsg)
-
-    const readToLowerCaseMsg = await readToLowerCase(
-      "../output/uppercaseContent.txt",
-      "../output/splittedLowercaseContent.txt"
-    )
-    console.log(readToLowerCaseMsg)
-
-    const readThenSortMsg = await readThenSort(
-      "../output/splittedLowercaseContent.txt",
-      "../output/sortedContent.txt"
-    )
-    console.log(readThenSortMsg)
-
-    const deleteFilesFromFilenamesMsg = await deleteFilesFromFilenames(
-      "../output/filenames.txt"
-    )
-    console.log(deleteFilesFromFilenamesMsg)
-  } catch (error) {
+  })
+  .then((msg) => {
+    console.log(msg)
+  })
+  .catch((error) => {
     console.log(error)
-  }
-})()
+  })
+// --------------------------------Second iteration using callbacks--------------------------------
 
+// import {
+//   createFile,
+//   readThenSort,
+//   readToLowerCase,
+//   readToUpperCase,
+//   deleteFilesFromFilenames,
+// } from "../solution-2.js"
+// ;(async () => {
+//   try {
+//     const createFileMsg = await createFile("../output", "lipsum", "txt")
+//     console.log(createFileMsg)
+
+//     const readToUpperCaseMsg = await readToUpperCase(
+// "../output/lipsum.txt",
+// "../output/uppercaseContent.txt"
+//     )
+//     console.log(readToUpperCaseMsg)
+
+//     const readToLowerCaseMsg = await readToLowerCase(
+//       "../output/uppercaseContent.txt",
+//       "../output/splittedLowercaseContent.txt"
+//     )
+//     console.log(readToLowerCaseMsg)
+
+//     const readThenSortMsg = await readThenSort(
+//       "../output/splittedLowercaseContent.txt",
+//       "../output/sortedContent.txt"
+//     )
+//     console.log(readThenSortMsg)
+
+//     const deleteFilesFromFilenamesMsg = await deleteFilesFromFilenames(
+//       "../output/filenames.txt"
+//     )
+//     console.log(deleteFilesFromFilenamesMsg)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })()
+// --------------------------------First iteration using callbacks--------------------------------
 // import {
 //   readToUpperCase,
 //   createFile,
