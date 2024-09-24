@@ -27,7 +27,33 @@ const createDirectory = (directoryPath, directoryName) => {
   })
 }
 
-export { createDirectory }
+const createMultipleFiles = (directoryPath, numberOfFiles) => {
+  let completed = 0
+  const errors = []
+
+  return new Promise((resolve, reject) => {
+    for (let i = 0; i < numberOfFiles; i++) {
+      const fileName = `random-json-file-${i}.json`
+      const content = `This is file's name is: ${fileName}`
+      const filenameAndPath = path.join(directoryPath, fileName)
+      try {
+        fs.writeFile(filenameAndPath, content)
+        completed++
+      } catch (error) {
+        errors.push(error)
+      }
+    }
+    if (completed === numberOfFiles) {
+      if (errors.length > 0) {
+        reject(errors)
+      } else {
+        resolve("Created all files successfully")
+      }
+    }
+  })
+}
+
+export { createDirectory, createMultipleFiles }
 
 // const { default: fs } = await import("fs/promises")
 // const path = await import("path")

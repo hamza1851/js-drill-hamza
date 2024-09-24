@@ -1,6 +1,10 @@
-import { createDirectory } from "../solution-1.js"
+import { createDirectory, createMultipleFiles } from "../solution-1.js"
 
 createDirectory("../", "random-JSON-files")
+  .then((msg) => {
+    console.log(msg)
+    return createMultipleFiles("../random-JSON-files", 5)
+  })
   .then((msg) => {
     console.log(msg)
   })
