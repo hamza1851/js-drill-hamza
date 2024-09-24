@@ -1,5 +1,6 @@
 import fs from "fs"
 import path from "path"
+//All the work will be done by the callbacks inside the fs methods
 
 function createFile(directoryPath, filename, fileType) {
   const filenameAndPath = path.join(directoryPath, `${filename}.${fileType}`)
@@ -28,4 +29,35 @@ function createFile(directoryPath, filename, fileType) {
     })
   })
 }
-export { createFile }
+function readToUpperCase(filenameAndPath, locationToStore) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filenameAndPath, "utf-8", (error, data) => {
+      if (error) {
+        reject(error)
+      } else {
+        const upperCaseData = data.toUpperCase()
+        fs.writeFile(locationToStore, upperCaseData, (error) => {
+          if (error) {
+            reject(error)
+          } else {
+            fs.writeFile(
+              "../output/filenames.txt",
+              locationToStore + "\n",
+              { flag: "a", encoding: "utf-8" },
+              (error) => {
+                if (error) {
+                  reject(error)
+                } else {
+                  resolve(
+                    `Converted ${filenameAndPath} to uppercase and stored in ${locationToStore}.`
+                  )
+                }
+              }
+            )
+          }
+        })
+      }
+    })
+  })
+}
+export { createFile , readToUpperCase}
