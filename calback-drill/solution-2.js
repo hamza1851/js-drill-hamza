@@ -114,8 +114,29 @@ const readToLowerCase = (filenameAndPath, locationToStore) => {
     })
 }
 
+const readThenSort = (filenameAndPath, locationToStore) => {
+  return fs
+    .readFile(filenameAndPath, "utf-8")
+    .then((data) => {
+      return data.split("\n").sort((a, b) => {
+        a.localeCompare(b)
+      })
+    })
+    .then((data) => {
+      fs.writeFile(locationToStore, data)
+    })
+    .then(() => {
+      fs.writeFile("../output/filenames.txt", locationToStore + "\n", "utf-8")
+    })
+    .then(() => {
+      return `Sorted data of ${locationToStore} and stored in ${locationToStore}`
+    })
+    .catch((error) => {
+      return error
+    })
+}
 
-export { createFile, readToUpperCase, readToLowerCase }
+export { createFile, readToUpperCase, readToLowerCase, readThenSort }
 
 // ----------------------Second Iteration using async await----------------------
 

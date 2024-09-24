@@ -1,4 +1,9 @@
-import { createFile, readToLowerCase, readToUpperCase } from "../solution-2.js"
+import {
+  createFile,
+  readToLowerCase,
+  readToUpperCase,
+  readThenSort,
+} from "../solution-2.js"
 
 createFile("../output", "lipsum", "txt")
   .then((msg) => {
@@ -13,6 +18,13 @@ createFile("../output", "lipsum", "txt")
     return readToLowerCase(
       "../output/uppercaseContent.txt",
       "../output/splittedLowercaseContent.txt"
+    )
+  })
+  .then((msg) => {
+    console.log(msg)
+    return readThenSort(
+      "../output/splittedLowercaseContent.txt",
+      "../output/sortedContent.txt"
     )
   })
   .then((msg) => {
@@ -47,10 +59,10 @@ createFile("../output", "lipsum", "txt")
 //     )
 //     console.log(readToLowerCaseMsg)
 
-//     const readThenSortMsg = await readThenSort(
-//       "../output/splittedLowercaseContent.txt",
-//       "../output/sortedContent.txt"
-//     )
+// const readThenSortMsg = await readThenSort(
+//   "../output/splittedLowercaseContent.txt",
+//   "../output/sortedContent.txt"
+// )
 //     console.log(readThenSortMsg)
 
 //     const deleteFilesFromFilenamesMsg = await deleteFilesFromFilenames(
