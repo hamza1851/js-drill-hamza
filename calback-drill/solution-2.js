@@ -126,7 +126,10 @@ const readThenSort = (filenameAndPath, locationToStore) => {
       fs.writeFile(locationToStore, data)
     })
     .then(() => {
-      fs.writeFile("../output/filenames.txt", locationToStore + "\n", "utf-8")
+      fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+        flag: "a",
+        encoding: "utf-8",
+      })
     })
     .then(() => {
       return `Sorted data of ${locationToStore} and stored in ${locationToStore}`
@@ -136,7 +139,37 @@ const readThenSort = (filenameAndPath, locationToStore) => {
     })
 }
 
-export { createFile, readToUpperCase, readToLowerCase, readThenSort }
+const deleteFilesFromFilenames = (nameCollectionFile) => {
+  let deleted = 0
+  const errors = []
+
+  return fs
+    .readFile(nameCollectionFile, "utf-8")
+    .then((filenames) => {
+      //filenames(string) to array of names
+      filenames.split("\n").map((filename) => {
+        //deleting files
+        fs.unlink(filename)
+          .then(() => deleted++)
+          .catch((error) => errors.push(error))
+      })
+    })
+    .then(() => {
+      if (errors.length > 0) return new Error(errors) // there should be an error if any deletion failed
+      return `Deleted all files from ${nameCollectionFile}`
+    })
+    .catch((error) => {
+      return `Error occurred during file read: ${error}` //if reading operation failed
+    })
+}
+
+export {
+  createFile,
+  readToUpperCase,
+  readToLowerCase,
+  readThenSort,
+  deleteFilesFromFilenames,
+}
 
 // ----------------------Second Iteration using async await----------------------
 
