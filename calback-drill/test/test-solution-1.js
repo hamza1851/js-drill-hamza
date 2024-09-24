@@ -1,31 +1,41 @@
-import {
-  createDirectory,
-  createMultipleFiles,
-  deleteDirectoryFiles,
-} from "../solution-1.js"
+import { createDirectory } from "../solution-1.js"
 
-const testProblem1 = async () => {
-  try {
-    const dirCreationMsg = await createDirectory("../", "random-JSON-files")
-    console.log(dirCreationMsg)
-
-    const filesCreationMsg = await createMultipleFiles(
-      "../random-JSON-files",
-      5
-    )
-    console.log(filesCreationMsg)
-
-    setTimeout(async () => {
-      const deletionOfFilesMsg = await deleteDirectoryFiles(
-        "../random-JSON-files"
-      )
-      console.log(deletionOfFilesMsg)
-    }, 3000)
-  } catch (error) {
+createDirectory("../", "random-JSON-files")
+  .then((msg) => {
+    console.log(msg)
+  })
+  .catch((error) => {
     console.log(error)
-  }
-}
-testProblem1()
+  })
+
+// import {
+//   createDirectory,
+//   createMultipleFiles,
+//   deleteDirectoryFiles,
+// } from "../solution-1.js"
+
+// const testProblem1 = async () => {
+//   try {
+//     const dirCreationMsg = await createDirectory("../", "random-JSON-files")
+//     console.log(dirCreationMsg)
+
+//     const filesCreationMsg = await createMultipleFiles(
+//       "../random-JSON-files",
+//       5
+//     )
+//     console.log(filesCreationMsg)
+
+//     setTimeout(async () => {
+//       const deletionOfFilesMsg = await deleteDirectoryFiles(
+//         "../random-JSON-files"
+//       )
+//       console.log(deletionOfFilesMsg)
+//     }, 3000)
+//   } catch (error) {
+//     console.log(error)
+//   }
+// }
+// testProblem1()
 
 // createDirectory("../", "random-JSON-files", (err, msg) => {
 //   if (err) return console.log(err)

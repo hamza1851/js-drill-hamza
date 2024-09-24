@@ -6,67 +6,90 @@ Using callbacks and the fs module's asynchronous functions, do the following:
 2. Delete those files simultaneously 
 */
 
-const { default: fs } = await import("fs/promises")
+const fs = await import("fs/promises")
 const path = await import("path")
 
-const createDirectory = async (directoryPath, directoryName) => {
+const createDirectory = (directoryPath, directoryName) => {
   const directoryNameAndPath = path.join(directoryPath, directoryName)
-  // if the directory created successfully then return msg otherwise error
-  try {
-    if (fs.access(directoryNameAndPath))
-      return "Warning: The directory already exist"
-    await fs.mkdir(directoryNameAndPath)
-    return `Directory created successfully: ${directoryNameAndPath}`
-  } catch (error) {
-    throw new Error(error)
-  }
+
+  return new Promise((resolve, reject) => {
+    fs.mkdir(directoryNameAndPath) // Use recursive to prevent errors for existing directories
+      .then(() => {
+        resolve(`Directory created successfully: ${directoryNameAndPath}`)
+      })
+      .catch((error) => {
+        if (error.code === "EEXIST") {
+          resolve("Warning: The directory already exists")
+        } else {
+          reject(new Error(`Error creating directory: ${error.message}`))
+        }
+      })
+  })
 }
 
-const createMultipleFiles = async (directoryPath, numberOfFiles) => {
-  let completed = 0 // Counter to track completed file creations
-  const errors = [] // Store errors if any
+export { createDirectory }
 
-  for (let i = 1; i <= numberOfFiles; i++) {
-    const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
-    const content = JSON.stringify({
-      message: `This is the file random-file-${i}`,
-    })
-    try {
-      await fs.writeFile(filenameAndPath, content)
-      completed++
-    } catch (error) {
-      errors.push(error)
-    }
-  }
-  if (completed === numberOfFiles) {
-    if (errors.length > 0) return errors
-    return `Created all files successfully`
-  }
-}
+// const { default: fs } = await import("fs/promises")
+// const path = await import("path")
 
-const deleteDirectoryFiles = async (directoryPathAndName) => {
-  let completed = 0
-  const errors = []
+// const createDirectory = async (directoryPath, directoryName) => {
+//   const directoryNameAndPath = path.join(directoryPath, directoryName)
+//   // if the directory created successfully then return msg otherwise error
+//   try {
+//     if (fs.access(directoryNameAndPath))
+//       return "Warning: The directory already exist"
+//     await fs.mkdir(directoryNameAndPath)
+//     return `Directory created successfully: ${directoryNameAndPath}`
+//   } catch (error) {
+//     throw new Error(error)
+//   }
+// }
 
-  const files = await fs.readdir(directoryPathAndName)
+// const createMultipleFiles = async (directoryPath, numberOfFiles) => {
+//   let completed = 0 // Counter to track completed file creations
+//   const errors = [] // Store errors if any
 
-  for (const file of files) {
-    const filePath = path.join(directoryPathAndName, file)
-    try {
-      await fs.unlink(filePath)
-      completed++
-    } catch (error) {
-      errors.push(error)
-    }
-  }
-  if (completed === files.length) {
-    if (errors.length > 0) return errors
+//   for (let i = 1; i <= numberOfFiles; i++) {
+//     const filenameAndPath = path.join(directoryPath, `random-file-${i}.json`)
+//     const content = JSON.stringify({
+//       message: `This is the file random-file-${i}`,
+//     })
+//     try {
+//       await fs.writeFile(filenameAndPath, content)
+//       completed++
+//     } catch (error) {
+//       errors.push(error)
+//     }
+//   }
+//   if (completed === numberOfFiles) {
+//     if (errors.length > 0) return errors
+//     return `Created all files successfully`
+//   }
+// }
 
-    return "All files deleted successfully"
-  }
-}
+// const deleteDirectoryFiles = async (directoryPathAndName) => {
+//   let completed = 0
+//   const errors = []
 
-export { createDirectory, createMultipleFiles, deleteDirectoryFiles }
+//   const files = await fs.readdir(directoryPathAndName)
+
+//   for (const file of files) {
+//     const filePath = path.join(directoryPathAndName, file)
+//     try {
+//       await fs.unlink(filePath)
+//       completed++
+//     } catch (error) {
+//       errors.push(error)
+//     }
+//   }
+//   if (completed === files.length) {
+//     if (errors.length > 0) return errors
+
+//     return "All files deleted successfully"
+//   }
+// }
+
+// export { createDirectory, createMultipleFiles, deleteDirectoryFiles }
 
 // import fs from "fs"
 // import path from "path"
