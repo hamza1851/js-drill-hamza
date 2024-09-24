@@ -5,7 +5,6 @@ Using callbacks and the fs module's asynchronous functions, do the following:
 1. Create a directory of random JSON files
 2. Delete those files simultaneously 
 */
-
 const fs = await import("fs/promises")
 const path = await import("path")
 
@@ -53,7 +52,37 @@ const createMultipleFiles = (directoryPath, numberOfFiles) => {
   })
 }
 
-export { createDirectory, createMultipleFiles }
+const deleteDirectoryFiles = (directoryPathAndName) => {
+  let deleted = 0
+  const errors = []
+
+  return new Promise((resolve, reject) => {
+    fs.readdir(directoryPathAndName, { encoding: "utf-8" })
+      .then((filenames) => {
+        const fileDeletionPromises = filenames.map((filename) => {
+          const filePath = path.join(directoryPathAndName, filename)
+          // returning promises to map array
+          return fs
+            .unlink(filePath)
+            .then(() => {
+              deleted++
+            })
+            .catch((error) => {
+              errors.push(error)
+            })
+        })
+        Promise.all(fileDeletionPromises).then(() => {
+          if (errors.length > 0) reject(errors)
+          resolve(`All files has been deleted`)
+        })
+      })
+      .catch((error) => {
+        reject(`Error occurred during reading filenames: ${error}`)
+      })
+  })
+}
+
+export { createDirectory, createMultipleFiles, deleteDirectoryFiles }
 
 // const { default: fs } = await import("fs/promises")
 // const path = await import("path")
