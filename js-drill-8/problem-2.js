@@ -93,4 +93,39 @@ function readToLowerCase(filenameAndPath, locationToStore) {
   })
 }
 
-export { createFile , readToUpperCase, readToLowerCase}
+function readThenSort(filenameAndPath, locationToStore) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filenameAndPath, "utf-8", (error, data) => {
+      if (error) {
+        reject(error)
+      } else {
+        const sortedContent = data
+          .split("\n")
+          .sort((a, b) => a.localeCompare(b))
+        fs.writeFile(locationToStore, sortedContent.join("\n"), (error) => {
+          if (error) {
+            reject(error)
+          } else {
+            fs.writeFile(
+              "../output/filenames.txt",
+              locationToStore + "\n",
+              { flag: "a", encoding: "utf-8" },
+              (error) => {
+                if (error) {
+                  reject(error)
+                } else {
+                  resolve(
+                    `Sorted ${filenameAndPath} and stored in ${locationToStore}.`
+                  )
+                }
+              }
+            )
+          }
+        })
+      }
+    })
+  })
+}
+
+
+export { createFile , readToUpperCase, readToLowerCase, readThenSort}

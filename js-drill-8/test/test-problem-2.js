@@ -1,4 +1,9 @@
-import { createFile, readToUpperCase, readToLowerCase } from "../problem-2.js"
+import {
+  createFile,
+  readToUpperCase,
+  readToLowerCase,
+  readThenSort,
+} from "../problem-2.js"
 
 createFile("../output", "lipsum", "txt")
   .then((msg) => {
@@ -13,6 +18,13 @@ createFile("../output", "lipsum", "txt")
     return readToLowerCase(
       "../output/uppercaseContent.txt",
       "../output/splittedLowercaseContent.txt"
+    )
+  })
+  .then((msg) => {
+    console.log(msg)
+    return readThenSort(
+      "../output/splittedLowercaseContent.txt",
+      "../output/sortedContent.txt"
     )
   })
   .then((msg) => {
