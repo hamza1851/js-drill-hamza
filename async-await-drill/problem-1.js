@@ -22,4 +22,22 @@ const createDirectory = async (directoryPath, directoryName) => {
   }
 }
 
-export { createDirectory }
+const createMultipleFiles = async (directoryPath, fileCount) => {
+  const errors = []
+  for (let i = 1; i <= fileCount; i++) {
+    const fileNamePathAndName = path.join(directoryPath, `random-JSON-${i}.txt`)
+    const content = `This file is ${fileNamePathAndName}`
+
+    try {
+      await fs.writeFile(fileNamePathAndName, content, { encoding: "utf-8" })
+      console.log(`${fileNamePathAndName} created successfully`)
+    } catch (error) {
+      errors.push(error)
+    }
+  }
+  return errors.length > 0
+    ? errors
+    : `All ${fileCount} files created successfully`
+}
+
+export { createDirectory, createMultipleFiles }
