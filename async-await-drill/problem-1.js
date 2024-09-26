@@ -40,4 +40,28 @@ const createMultipleFiles = async (directoryPath, fileCount) => {
     : `All ${fileCount} files created successfully`
 }
 
-export { createDirectory, createMultipleFiles }
+const deleteFiles = async (directoryPath) => {
+  const errors = []
+  let completed = 0
+  const fileNames = await fs.readdir(directoryPath, "utf-8")
+
+  const deletionPromiseArray = fileNames.map((filename) => {
+    const filePath = path.join(directoryPath, filename)
+    try {
+      fs.unlink(filePath)
+      completed++
+    } catch (error) {
+      errors.push(error)
+    }
+  })
+
+  await Promise.all(deletionPromiseArray)
+
+  if (completed === fileNames.length) {
+    if (errors.length > 0) return errors
+
+    return "All files deleted successfully"
+  }
+}
+
+export { createDirectory, createMultipleFiles, deleteFiles }
