@@ -52,10 +52,39 @@ const readToUpperCase = async (filePath, locationToStore) => {
 
     Promise.all([await writingToUpperTxt, await storingFileName])
 
-    return `Converted lipsum.txt to uppercase and stored the filepath to filename.txt`
+    return `Converted lipsum.txt to uppercase and stored the file path to filename.txt`
   } catch (error) {
     return `Error occurred: ${error}`
   }
 }
 
-export { createFile, readToUpperCase}
+const readToLowerCase = async (filePath, locationToStore) => {
+  const data = await fs.readFile(filePath, "utf-8")
+  const lowerCaseData = data.toLowerCase().split("\n")
+  try {
+    const writingToLowerTxt = fs.writeFile(
+      locationToStore,
+      lowerCaseData.join("\n"),
+      "utf-8"
+    )
+    const storingFileName = fs.writeFile(
+      "../output/filenames.txt",
+      locationToStore,
+      { flag: "a", encoding: "utf-8" }
+    )
+
+    Promise.all([await writingToLowerTxt, await storingFileName])
+
+    return `Converted ${filePath} to lowercase and stored the file path to filename.txt`
+  } catch (error) {
+    return `Error occurred: ${error}`
+  }
+}
+
+const readThenSort = async (filePath, locationToStore) => {
+  const data = await fs.readFile(filePath, "utf-8")
+  const sortedData = data.sort((a, b) => a - b)
+  console.log(sortedData)
+}
+
+export { createFile, readToUpperCase, readToLowerCase }
