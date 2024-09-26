@@ -6,7 +6,7 @@ Using callbacks and the fs module's asynchronous functions, do the following:
 2. Delete those files simultaneously 
 */
 
-const fs = await import("fs/promises")
+const { default: fs } = await import("fs/promises")
 const path = await import("path")
 
 const createDirectory = (directoryPath, directoryName) => {

@@ -37,7 +37,7 @@ FIXME:
         delete all the files mentioned in filename.txt
 */
 
-const fs = await import("fs/promises")
+const { default: fs } = await import("fs/promises")
 const path = await import("path")
 
 const createFile = (directoryPath, filename, fileType) => {
