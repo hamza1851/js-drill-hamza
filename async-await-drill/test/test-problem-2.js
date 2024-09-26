@@ -3,6 +3,7 @@ import {
   readToLowerCase,
   readToUpperCase,
   readThenSort,
+  deleteFilesFromFilenames,
 } from "../problem-2.js"
 ;(async () => {
   try {
@@ -30,6 +31,11 @@ import {
       "../output/sortedContent.txt"
     )
     console.log(readThenSortMsg)
+
+    const deletedFilesMsg = await deleteFilesFromFilenames(
+      "../output/filenames.txt"
+    )
+    console.log(deletedFilesMsg)
   } catch (error) {
     console.log(error)
   }

@@ -52,7 +52,7 @@ const readToUpperCase = async (filePath, locationToStore) => {
 
     Promise.all([await writingToUpperTxt, await storingFileName])
 
-    return `Converted lipsum.txt to uppercase and stored the file path to filename.txt`
+    return `Converted lipsum.txt to uppercase and stored the file path to filenames.txt`
   } catch (error) {
     return `Error occurred: ${error}`
   }
@@ -75,7 +75,7 @@ const readToLowerCase = async (filePath, locationToStore) => {
 
     Promise.all([await writingToLowerTxt, await storingPath])
 
-    return `Converted ${filePath} to lowercase and stored the file path to filename.txt`
+    return `Converted ${filePath} to lowercase and stored the file path to filenames.txt`
   } catch (error) {
     return `Error occurred: ${error}`
   }
@@ -110,4 +110,33 @@ const readThenSort = async (filePath, locationToStore) => {
   }
 }
 
-export { createFile, readToUpperCase, readToLowerCase, readThenSort }
+const deleteFilesFromFilenames = async (fileContainingNames) => {
+  const errors = []
+  const fileNames = (await fs.readFile(fileContainingNames, "utf-8"))
+    .split("\n")
+    .filter((filename) => filename !== "") // we will get only names not empty string
+  try {
+    for (const filename of fileNames) {
+      try {
+        await fs.unlink(filename) // deleting files
+      } catch (error) {
+        errors.push(error) // deletion failed push the error
+      }
+    }
+
+    const deletedFiles = fileNames.length - errors.length // if there is any error then there must be any deletion of file failed
+    if (deletedFiles === fileNames.length)
+      return "All files deleted successfully"
+    else return errors
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export {
+  createFile,
+  readToUpperCase,
+  readToLowerCase,
+  readThenSort,
+  deleteFilesFromFilenames,
+}
