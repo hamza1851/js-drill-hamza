@@ -37,4 +37,25 @@ const createFile = async (directoryPath) => {
   }
 }
 
-export { createFile }
+const readToUpperCase = async (filePath, locationToStore) => {
+  const data = await fs.readFile(filePath, "utf-8")
+  const upperCaseData = data.toUpperCase()
+  try {
+    const writingToUpperTxt = fs.writeFile(locationToStore, upperCaseData, {
+      encoding: "utf-8",
+    })
+    const storingFileName = fs.writeFile(
+      "../output/filenames.txt",
+      locationToStore + "\n",
+      { flag: "a", encoding: "utf-8" }
+    )
+
+    Promise.all([await writingToUpperTxt, await storingFileName])
+
+    return `Converted lipsum.txt to uppercase and stored the filepath to filename.txt`
+  } catch (error) {
+    return `Error occurred: ${error}`
+  }
+}
+
+export { createFile, readToUpperCase}
