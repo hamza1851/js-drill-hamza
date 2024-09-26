@@ -10,3 +10,30 @@
 
     HINT: Use setTimeout for the delay
 */
+
+console.log("Program started")
+
+function promise() {
+  const resolvePromise = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Program complete")
+    }, 3000)
+
+    setTimeout(() => {
+      reject("Program failure")
+    }, 2000)
+  })
+
+  console.log(resolvePromise)
+  console.log("Program in progress...")
+  return resolvePromise
+}
+
+const resolvedVal = promise()
+resolvedVal
+  .then((msg) => {
+    console.log(msg)
+  })
+  .catch((error) => {
+    console.log(error)
+  })
