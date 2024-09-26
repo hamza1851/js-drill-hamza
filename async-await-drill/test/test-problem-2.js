@@ -1,4 +1,9 @@
-import { createFile, readToLowerCase, readToUpperCase } from "../problem-2.js"
+import {
+  createFile,
+  readToLowerCase,
+  readToUpperCase,
+  readThenSort,
+} from "../problem-2.js"
 ;(async () => {
   try {
     //Creating lipsum.txt
@@ -18,6 +23,13 @@ import { createFile, readToLowerCase, readToUpperCase } from "../problem-2.js"
       "../output/lowerCaseContent.txt"
     )
     console.log(convertToLowerMsg)
+
+    // Sorting the data of lowerCaseContentFile
+    const readThenSortMsg = await readThenSort(
+      "../output/lowerCaseContent.txt",
+      "../output/sortedContent.txt"
+    )
+    console.log(readThenSortMsg)
   } catch (error) {
     console.log(error)
   }

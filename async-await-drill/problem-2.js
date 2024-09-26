@@ -67,13 +67,13 @@ const readToLowerCase = async (filePath, locationToStore) => {
       lowerCaseData.join("\n"),
       "utf-8"
     )
-    const storingFileName = fs.writeFile(
+    const storingPath = fs.writeFile(
       "../output/filenames.txt",
-      locationToStore,
+      locationToStore + "\n",
       { flag: "a", encoding: "utf-8" }
     )
 
-    Promise.all([await writingToLowerTxt, await storingFileName])
+    Promise.all([await writingToLowerTxt, await storingPath])
 
     return `Converted ${filePath} to lowercase and stored the file path to filename.txt`
   } catch (error) {
@@ -83,8 +83,31 @@ const readToLowerCase = async (filePath, locationToStore) => {
 
 const readThenSort = async (filePath, locationToStore) => {
   const data = await fs.readFile(filePath, "utf-8")
-  const sortedData = data.sort((a, b) => a - b)
-  console.log(sortedData)
+
+  try {
+    //sorting the data
+    const sortedData = data
+      .split("\n")
+      .sort((a, b) => a.localeCompare(b))
+      .join("\n")
+
+    const storingSortedData = fs.writeFile(locationToStore, sortedData, "utf-8")
+
+    const storingPath = fs.writeFile(
+      "../output/filenames.txt",
+      locationToStore + "\n",
+      {
+        flag: "a",
+        encoding: "utf-8",
+      }
+    )
+
+    Promise.all([await storingSortedData, await storingPath])
+
+    return `Sorted the data and stored in ${locationToStore} successfully`
+  } catch (error) {
+    return `Error occurred: ${error}`
+  }
 }
 
-export { createFile, readToUpperCase, readToLowerCase }
+export { createFile, readToUpperCase, readToLowerCase, readThenSort }
