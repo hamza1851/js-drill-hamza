@@ -8,3 +8,33 @@
         4. Read the new files, sort the content, write it out to a new file. Store the name of the new file in filenames.txt
         5. Read the contents of filenames.txt and delete all the new files that are mentioned in that list simultaneously.
 */
+
+const { default: fs } = await import("fs/promises")
+const path = await import("path")
+
+const createFile = async (directoryPath) => {
+  // Creating lipsum.txt
+  const filePathAndName = path.join(directoryPath, "lipsum.txt")
+  const content = `Shall I compare thee to a summer's day?
+  Thou art more lovely and more temperate:
+  Rough winds do shake the darling buds of May,
+  And summer's lease hath all too short a date:
+  Sometime too hot the eye of heaven shines,
+  And often is his gold complexion dimmed;
+  And every fair from fair sometime declines,
+  By chance or nature's changing course untrimmed:
+  But thy eternal summer shall not fade,
+  Nor lose possession of that fair thou'st now;
+  Nor shall Death brag thou wand'rest from the way,
+  When Time shall age unrinded brow.
+  No, when Death shall call thee from this earth,
+  Thou shalt live in eternal summer.`
+  try {
+    await fs.writeFile(filePathAndName, content)
+    return `lipsum.txt created successfully`
+  } catch (error) {
+    return `Error occurred ${error}`
+  }
+}
+
+export { createFile }
