@@ -9,8 +9,6 @@
         5. Read the contents of filenames.txt and delete all the new files that are mentioned in that list simultaneously.
 */
 
-import { error } from "console"
-
 /*
 TODO:
         Create a file lipsum.txt
@@ -37,130 +35,164 @@ FIXME:
         delete all the files mentioned in filename.txt
 */
 
-// ----------------------Third Iteration using fs/promises----------------------
-const fs = await import("fs/promises")
-const path = await import("path")
+import fs from "fs"
+import path from "path"
 
-const createFile = (directoryPath, filename, fileType) => {
+function createFile(directoryPath, filename, fileType, callback) {
   const filenameAndPath = path.join(directoryPath, `${filename}.${fileType}`)
   const content = `Shall I compare thee to a summer's day?
-  Thou art more lovely and more temperate:
-  Rough winds do shake the darling buds of May,
-  And summer's lease hath all too short a date:
-  Sometime too hot the eye of heaven shines,
-  And often is his gold complexion dimmed;
-  And every fair from fair sometime declines,
-  By chance or nature's changing course untrimmed:
-  But thy eternal summer shall not fade,
-  Nor lose possession of that fair thou'st now;
-  Nor shall Death brag thou wand'rest from the way,
-  When Time shall age unrinded brow.
-  No, when Death shall call thee from this earth,
-  Thou shalt live in eternal summer.`
+Thou art more lovely and more temperate:
+Rough winds do shake the darling buds of May,
+And summer's lease hath all too short a date:
+Sometime too hot the eye of heaven shines,
+And often is his gold complexion dimmed;
+And every fair from fair sometime declines,
+By chance or nature's changing course untrimmed:
+But thy eternal summer shall not fade,
+Nor lose possession of that fair thou'st now;
+Nor shall Death brag thou wand'rest from the way,
+When Time shall age unrinded brow.
+No, when Death shall call thee from this earth,
+Thou shalt live in eternal summer.`
 
-  return fs
-    .writeFile(filenameAndPath, content)
-    .then(() => {
-      return `File created successfully: ${filenameAndPath}`
-    })
-    .catch((error) => {
-      return error
-    })
+  fs.writeFile(filenameAndPath, content, (err) => {
+    if (err) {
+      return callback(err)
+    }
+    callback(null, `File created successfully.`)
+  })
 }
 
-const readToUpperCase = (filenameAndPath, locationToStore) => {
-  return fs
-    .readFile(filenameAndPath, "utf-8")
-    .then((data) => {
-      return data.toUpperCase()
+function readToUpperCase(filenameAndPath, locationToStore, callback) {
+  fs.readFile(filenameAndPath, "utf-8", (error, data) => {
+    if (error) {
+      return callback(error)
+    }
+
+    // Converting the content to upper case
+    const upper = data.toUpperCase()
+
+    // Writing the uppercase content to a file
+    fs.writeFile(locationToStore, upper, (error) => {
+      if (error) {
+        return callback(error)
+      }
+
+      // Storing the filename in to filename.txt
+      fs.writeFile(
+        "../output/filenames.txt",
+        locationToStore + "\n",
+        { flag: "a", encoding: "utf-8" }, // flag a opens the file for appending the data from end of file
+        (error) => {
+          if (error) {
+            return callback(error)
+          }
+
+          callback(
+            null,
+            `Converted ${filenameAndPath} to uppercase and written to ${locationToStore}. Filename stored in filenames.txt.`
+          )
+        }
+      )
     })
-    .then((data) => {
-      fs.writeFile(locationToStore, data)
-    })
-    .then(() => {
-      fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
-        flag: "a",
-        encoding: "utf-8",
-      })
-    })
-    .then(() => {
-      return `${filenameAndPath} Converted to uppercase and filepath stored at filenames.txt`
-    })
-    .catch((error) => {
-      return error
-    })
+  })
 }
 
-const readToLowerCase = (filenameAndPath, locationToStore) => {
-  return fs
-    .readFile(filenameAndPath, "utf-8")
-    .then((data) => {
-      return data.toLowerCase()
+function readToLowerCase(filenameAndPath, locationToStore, callback) {
+  // Reading the given file content
+  fs.readFile(filenameAndPath, "utf-8", (error, data) => {
+    if (error) return callback(error)
+
+    // Converting the content to lowercase and splitting by new lines
+    const lowerCase = data.toLowerCase().split("\n")
+
+    // Writing the lowerCase-splitted content into locationToStore
+    fs.writeFile(locationToStore, lowerCase.join("\n"), (error) => {
+      if (error) return callback(error)
+
+      // Appending the filename to filenames.txt
+      fs.writeFile(
+        "../output/filenames.txt",
+        locationToStore + "\n", // Adding a newline for better formatting
+        { flag: "a", encoding: "utf-8" }, // flag 'a' opens the file for appending
+        (error) => {
+          if (error) return callback(error)
+          callback(
+            null,
+            `Converted ${filenameAndPath} to lowercase and written to ${locationToStore}. Filename stored in filenames.txt.`
+          )
+        }
+      )
     })
-    .then((data) => {
-      fs.writeFile(locationToStore, data)
-    })
-    .then(() => {
-      fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
-        flag: "a",
-        encoding: "utf-8",
-      })
-    })
-    .then(() => {
-      return `${filenameAndPath} Converted to lowercase and filepath stored at filenames.txt`
-    })
-    .catch((error) => {
-      return error
-    })
+  })
 }
 
-const readThenSort = (filenameAndPath, locationToStore) => {
-  return fs
-    .readFile(filenameAndPath, "utf-8")
-    .then((data) => {
-      return data.split("\n").sort((a, b) => {
-        a.localeCompare(b)
-      })
+function readThenSort(filenameAndPath, locationToStore, callback) {
+  // Reading the given file "filenameAndPath"
+  fs.readFile(filenameAndPath, "utf-8", (error, data) => {
+    if (error) return callback(error)
+
+    // Sorting the content
+    const sortedContent = data
+      .split("\n")
+      // .flatMap((line) => line.split(" ")) // it create the map then operate according to the callback and return the flatten array
+      .sort((a, b) => a.localeCompare(b)) //localCompare sorts the content alphabetically
+
+    // console.log(sortedContent)
+
+    // Writing into sortedContent.txt
+    fs.writeFile(locationToStore, sortedContent.join("\n"), (error) => {
+      if (error) return callback(error)
+      console.log(
+        `Sorted the content of ${filenameAndPath} and stored into ${locationToStore}`
+      )
+      // Storing the file name
+      fs.writeFile(
+        "../output/filenames.txt",
+        locationToStore + "\n",
+        { flag: "a", encoding: "utf-8" }, // flag 'a' opens the file for appending
+        (error) => {
+          if (error) return console.log(error)
+          return callback(
+            null,
+            `Stored the path of ${locationToStore} in to filenames.txt`
+          )
+        }
+      )
     })
-    .then((data) => {
-      fs.writeFile(locationToStore, data)
-    })
-    .then(() => {
-      fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
-        flag: "a",
-        encoding: "utf-8",
-      })
-    })
-    .then(() => {
-      return `Sorted data of ${locationToStore} and stored in ${locationToStore}`
-    })
-    .catch((error) => {
-      return error
-    })
+  })
 }
 
-const deleteFilesFromFilenames = (nameCollectionFile) => {
-  let deleted = 0
-  const errors = []
+function deleteTheFilesByFilenames(nameCollectionFile, callback) {
+  fs.readFile(nameCollectionFile, "utf-8", (error, data) => {
+    if (error) {
+      return callback(error)
+    }
 
-  return fs
-    .readFile(nameCollectionFile, "utf-8")
-    .then((filenames) => {
-      //filenames(string) to array of names
-      filenames.split("\n").map((filename) => {
-        //deleting files
-        fs.unlink(filename)
-          .then(() => deleted++)
-          .catch((error) => errors.push(error))
+    const fileNames = data.split("\n").filter((filename) => filename !== "")
+
+    if (fileNames.length === 0) {
+      return callback(null, "No files to delete.")
+    }
+    let filesDeleted = 0
+    let errors = []
+
+    fileNames.forEach((filename) => {
+      fs.unlink(filename, (err) => {
+        if (err) {
+          errors.push(`Error deleting ${filename}: ${err.message}`)
+        }
       })
+      filesDeleted++
+
+      if (filesDeleted === fileNames.length) {
+        if (errors.length > 0) {
+          callback(errors.join("\n"))
+        }
+      }
     })
-    .then(() => {
-      if (errors.length > 0) return new Error(errors) // there should be an error if any deletion failed
-      return `Deleted all files from ${nameCollectionFile}`
-    })
-    .catch((error) => {
-      return `Error occurred during file read: ${error}` //if reading operation failed
-    })
+    callback(null, "All files deleted successfully")
+  })
 }
 
 export {
@@ -168,8 +200,142 @@ export {
   readToUpperCase,
   readToLowerCase,
   readThenSort,
-  deleteFilesFromFilenames,
+  deleteTheFilesByFilenames,
 }
+
+// ----------------------Third Iteration using fs/promises----------------------
+// const fs = await import("fs/promises")
+// const path = await import("path")
+
+// const createFile = (directoryPath, filename, fileType) => {
+//   const filenameAndPath = path.join(directoryPath, `${filename}.${fileType}`)
+//   const content = `Shall I compare thee to a summer's day?
+//   Thou art more lovely and more temperate:
+//   Rough winds do shake the darling buds of May,
+//   And summer's lease hath all too short a date:
+//   Sometime too hot the eye of heaven shines,
+//   And often is his gold complexion dimmed;
+//   And every fair from fair sometime declines,
+//   By chance or nature's changing course untrimmed:
+//   But thy eternal summer shall not fade,
+//   Nor lose possession of that fair thou'st now;
+//   Nor shall Death brag thou wand'rest from the way,
+//   When Time shall age unrinded brow.
+//   No, when Death shall call thee from this earth,
+//   Thou shalt live in eternal summer.`
+
+//   return fs
+//     .writeFile(filenameAndPath, content)
+//     .then(() => {
+//       return `File created successfully: ${filenameAndPath}`
+//     })
+//     .catch((error) => {
+//       return error
+//     })
+// }
+
+// const readToUpperCase = (filenameAndPath, locationToStore) => {
+//   return fs
+//     .readFile(filenameAndPath, "utf-8")
+//     .then((data) => {
+//       return data.toUpperCase()
+//     })
+//     .then((data) => {
+//       fs.writeFile(locationToStore, data)
+//     })
+//     .then(() => {
+//       fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+//         flag: "a",
+//         encoding: "utf-8",
+//       })
+//     })
+//     .then(() => {
+//       return `${filenameAndPath} Converted to uppercase and filepath stored at filenames.txt`
+//     })
+//     .catch((error) => {
+//       return error
+//     })
+// }
+
+// const readToLowerCase = (filenameAndPath, locationToStore) => {
+//   return fs
+//     .readFile(filenameAndPath, "utf-8")
+//     .then((data) => {
+//       return data.toLowerCase()
+//     })
+//     .then((data) => {
+//       fs.writeFile(locationToStore, data)
+//     })
+//     .then(() => {
+//       fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+//         flag: "a",
+//         encoding: "utf-8",
+//       })
+//     })
+//     .then(() => {
+//       return `${filenameAndPath} Converted to lowercase and filepath stored at filenames.txt`
+//     })
+//     .catch((error) => {
+//       return error
+//     })
+// }
+
+// const readThenSort = (filenameAndPath, locationToStore) => {
+//   return fs
+//     .readFile(filenameAndPath, "utf-8")
+//     .then((data) => {
+//       return data.split("\n").sort((a, b) => {
+//         a.localeCompare(b)
+//       })
+//     })
+//     .then((data) => {
+//       fs.writeFile(locationToStore, data)
+//     })
+//     .then(() => {
+//       fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
+//         flag: "a",
+//         encoding: "utf-8",
+//       })
+//     })
+//     .then(() => {
+//       return `Sorted data of ${locationToStore} and stored in ${locationToStore}`
+//     })
+//     .catch((error) => {
+//       return error
+//     })
+// }
+
+// const deleteFilesFromFilenames = (nameCollectionFile) => {
+//   let deleted = 0
+//   const errors = []
+
+//   return fs
+//     .readFile(nameCollectionFile, "utf-8")
+//     .then((filenames) => {
+//       //filenames(string) to array of names
+//       filenames.split("\n").map((filename) => {
+//         //deleting files
+//         fs.unlink(filename)
+//           .then(() => deleted++)
+//           .catch((error) => errors.push(error))
+//       })
+//     })
+//     .then(() => {
+//       if (errors.length > 0) return new Error(errors) // there should be an error if any deletion failed
+//       return `Deleted all files from ${nameCollectionFile}`
+//     })
+//     .catch((error) => {
+//       return `Error occurred during file read: ${error}` //if reading operation failed
+//     })
+// }
+
+// export {
+//   createFile,
+//   readToUpperCase,
+//   readToLowerCase,
+//   readThenSort,
+//   deleteFilesFromFilenames,
+// }
 
 // ----------------------Second Iteration using async await----------------------
 
@@ -280,172 +446,3 @@ export {
 //   deleteFilesFromFilenames,
 // }
 
-// ----------------------First Iteration using callbacks----------------------
-
-// import fs from "fs"
-// import path from "path"
-
-// function createFile(directoryPath, filename, fileType, callback) {
-//   const filenameAndPath = path.join(directoryPath, `${filename}.${fileType}`)
-//   const content = `Shall I compare thee to a summer's day?
-// Thou art more lovely and more temperate:
-// Rough winds do shake the darling buds of May,
-// And summer's lease hath all too short a date:
-// Sometime too hot the eye of heaven shines,
-// And often is his gold complexion dimmed;
-// And every fair from fair sometime declines,
-// By chance or nature's changing course untrimmed:
-// But thy eternal summer shall not fade,
-// Nor lose possession of that fair thou'st now;
-// Nor shall Death brag thou wand'rest from the way,
-// When Time shall age unrinded brow.
-// No, when Death shall call thee from this earth,
-// Thou shalt live in eternal summer.`
-
-//   fs.writeFile(filenameAndPath, content, (err) => {
-//     if (err) {
-//       return callback(err)
-//     }
-//     callback(null, `File created successfully.`)
-//   })
-// }
-
-// function readToUpperCase(filenameAndPath, locationToStore, callback) {
-//   fs.readFile(filenameAndPath, "utf-8", (error, data) => {
-//     if (error) {
-//       return callback(error)
-//     }
-
-//     // Converting the content to upper case
-//     const upper = data.toUpperCase()
-
-//     // Writing the uppercase content to a file
-//     fs.writeFile(locationToStore, upper, (error) => {
-//       if (error) {
-//         return callback(error)
-//       }
-
-//       // Storing the filename in to filename.txt
-//       fs.writeFile(
-//         "../output/filenames.txt",
-//         locationToStore + "\n",
-//         { flag: "a", encoding: "utf-8" }, // flag a opens the file for appending the data from end of file
-//         (error) => {
-//           if (error) {
-//             return callback(error)
-//           }
-
-//           callback(
-//             null,
-//             `Converted ${filenameAndPath} to uppercase and written to ${locationToStore}. Filename stored in filenames.txt.`
-//           )
-//         }
-//       )
-//     })
-//   })
-// }
-
-// function readToLowerCase(filenameAndPath, locationToStore, callback) {
-//   // Reading the given file content
-//   fs.readFile(filenameAndPath, "utf-8", (error, data) => {
-//     if (error) return callback(error)
-
-//     // Converting the content to lowercase and splitting by new lines
-//     const lowerCase = data.toLowerCase().split("\n")
-
-//     // Writing the lowerCase-splitted content into locationToStore
-//     fs.writeFile(locationToStore, lowerCase.join("\n"), (error) => {
-//       if (error) return callback(error)
-
-//       // Appending the filename to filenames.txt
-//       fs.writeFile(
-//         "../output/filenames.txt",
-//         locationToStore + "\n", // Adding a newline for better formatting
-//         { flag: "a", encoding: "utf-8" }, // flag 'a' opens the file for appending
-//         (error) => {
-//           if (error) return callback(error)
-//           callback(
-//             null,
-//             `Converted ${filenameAndPath} to lowercase and written to ${locationToStore}. Filename stored in filenames.txt.`
-//           )
-//         }
-//       )
-//     })
-//   })
-// }
-
-// function readThenSort(filenameAndPath, locationToStore, callback) {
-//   // Reading the given file "filenameAndPath"
-//   fs.readFile(filenameAndPath, "utf-8", (error, data) => {
-//     if (error) return callback(error)
-
-//     // Sorting the content
-//     const sortedContent = data
-//       .split("\n")
-//       // .flatMap((line) => line.split(" ")) // it create the map then operate according to the callback and return the flatten array
-//       .sort((a, b) => a.localeCompare(b)) //localCompare sorts the content alphabetically
-
-//     // console.log(sortedContent)
-
-//     // Writing into sortedContent.txt
-//     fs.writeFile(locationToStore, sortedContent.join("\n"), (error) => {
-//       if (error) return callback(error)
-//       console.log(
-//         `Sorted the content of ${filenameAndPath} and stored into ${locationToStore}`
-//       )
-//       // Storing the file name
-//       fs.writeFile(
-//         "../output/filenames.txt",
-//         locationToStore + "\n",
-//         { flag: "a", encoding: "utf-8" }, // flag 'a' opens the file for appending
-//         (error) => {
-//           if (error) return console.log(error)
-//           return callback(
-//             null,
-//             `Stored the path of ${locationToStore} in to filenames.txt`
-//           )
-//         }
-//       )
-//     })
-//   })
-// }
-
-// function deleteTheFilesByFilenames(nameCollectionFile, callback) {
-//   fs.readFile(nameCollectionFile, "utf-8", (error, data) => {
-//     if (error) {
-//       return callback(error)
-//     }
-
-//     const fileNames = data.split("\n").filter((filename) => filename !== "")
-
-//     if (fileNames.length === 0) {
-//       return callback(null, "No files to delete.")
-//     }
-//     let filesDeleted = 0
-//     let errors = []
-
-//     fileNames.forEach((filename) => {
-//       fs.unlink(filename, (err) => {
-//         if (err) {
-//           errors.push(`Error deleting ${filename}: ${err.message}`)
-//         }
-//       })
-//       filesDeleted++
-
-//       if (filesDeleted === fileNames.length) {
-//         if (errors.length > 0) {
-//           callback(errors.join("\n"))
-//         }
-//       }
-//     })
-//     callback(null, "All files deleted successfully")
-//   })
-// }
-
-// export {
-//   createFile,
-//   readToUpperCase,
-//   readToLowerCase,
-//   readThenSort,
-//   deleteTheFilesByFilenames,
-// }
