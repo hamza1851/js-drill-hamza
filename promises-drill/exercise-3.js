@@ -41,6 +41,29 @@ const firstPromise = new Promise((resolve) => {
 console.log(firstPromise)
 console.log("Program in progress...")
 
+// firstPromise
+//   .then((value) => {
+//     console.log(value)
+//     const secPromise = new Promise((resolve) => {
+//       setTimeout(() => {
+//         resolve("First promise chain complete!")
+//       }, 2000)
+//     })
+//     return secPromise
+//   })
+//   .then((secPromiseMsg) => {
+//     console.log(secPromiseMsg)
+//     const thirdPromise = new Promise((resolve) => {
+//       setTimeout(() => {
+//         resolve("Second promise chain complete!")
+//       }, 10000)
+//     })
+//     return thirdPromise
+//   })
+//   .then((thirdPromiseMsg) => {
+//     console.log(thirdPromiseMsg)
+//   })
+
 firstPromise
   .then((value) => {
     console.log(value)
@@ -53,13 +76,17 @@ firstPromise
   })
   .then((secPromiseMsg) => {
     console.log(secPromiseMsg)
-    const thirdPromise = new Promise((resolve) => {
+  })
+
+firstPromise
+  .then((value) => {
+    console.log(value)
+    return new Promise((resolve) => {
       setTimeout(() => {
-        resolve("Second promise chain complete!")
+        resolve("Second Promise chain completed")
       }, 10000)
     })
-    return thirdPromise
   })
-  .then((thirdPromiseMsg) => {
-    console.log(thirdPromiseMsg)
+  .then((msg) => {
+    console.log(msg)
   })
