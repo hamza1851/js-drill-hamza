@@ -73,15 +73,13 @@ const readToUpperCase = (filenameAndPath, locationToStore) => {
     .then((data) => {
       return data.toUpperCase()
     })
-    .then((data) => {
-      fs.writeFile(locationToStore, data)
-    })
-    .then(() => {
+    .then((data) => fs.writeFile(locationToStore, data))
+    .then(() =>
       fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
         flag: "a",
         encoding: "utf-8",
       })
-    })
+    )
     .then(() => {
       return `${filenameAndPath} Converted to uppercase and filepath stored at filenames.txt`
     })
@@ -96,15 +94,13 @@ const readToLowerCase = (filenameAndPath, locationToStore) => {
     .then((data) => {
       return data.toLowerCase()
     })
-    .then((data) => {
-      fs.writeFile(locationToStore, data)
-    })
-    .then(() => {
+    .then((data) => fs.writeFile(locationToStore, data))
+    .then(() =>
       fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
         flag: "a",
         encoding: "utf-8",
       })
-    })
+    )
     .then(() => {
       return `${filenameAndPath} Converted to lowercase and filepath stored at filenames.txt`
     })
@@ -121,15 +117,13 @@ const readThenSort = (filenameAndPath, locationToStore) => {
         a.localeCompare(b)
       })
     })
-    .then((data) => {
-      fs.writeFile(locationToStore, data)
-    })
-    .then(() => {
+    .then((data) => fs.writeFile(locationToStore, data))
+    .then(() =>
       fs.writeFile("../output/filenames.txt", locationToStore + "\n", {
         flag: "a",
         encoding: "utf-8",
       })
-    })
+    )
     .then(() => {
       return `Sorted data of ${locationToStore} and stored in ${locationToStore}`
     })
@@ -139,22 +133,20 @@ const readThenSort = (filenameAndPath, locationToStore) => {
 }
 
 const deleteFilesFromFilenames = (nameCollectionFile) => {
-  let deleted = 0
-  const errors = []
-
   return fs
     .readFile(nameCollectionFile, "utf-8")
     .then((filenames) => {
       //filenames(string) to array of names
-      filenames.split("\n").map((filename) => {
-        //deleting files
-        fs.unlink(filename)
-          .then(() => deleted++)
-          .catch((error) => errors.push(error))
-      })
+      const promiseArray = filenames
+        .split("\n")
+        .filter((filename) => filename !== "")
+        .map((filename) =>
+          //deleting files
+          fs.unlink(filename)
+        )
+      return Promise.all(promiseArray)
     })
     .then(() => {
-      if (errors.length > 0) return new Error(errors) // there should be an error if any deletion failed
       return `Deleted all files from ${nameCollectionFile}`
     })
     .catch((error) => {
