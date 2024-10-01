@@ -27,27 +27,21 @@ const createDirectory = (directoryPath, directoryName) => {
 }
 
 const createMultipleFiles = (directoryPath, numberOfFiles) => {
-  let completed = 0
-  const errors = []
-
+  const promiseArray = []
   for (let i = 0; i < numberOfFiles; i++) {
     const fileName = `random-json-file-${i}.json`
     const content = `This is file's name is: ${fileName}`
     const filenameAndPath = path.join(directoryPath, fileName)
-    try {
-      fs.writeFile(filenameAndPath, content)
-      completed++
-    } catch (error) {
-      errors.push(error)
-    }
+
+    promiseArray.push(fs.writeFile(filenameAndPath, content))
   }
-  if (completed === numberOfFiles) {
-    if (errors.length > 0) {
-      return errors
-    } else {
-      return "Created all files successfully"
-    }
-  }
+  return Promise.all(promiseArray)
+    .then(() => {
+      return `All ${numberOfFiles} created successfully`
+    })
+    .catch((err) => {
+      return err
+    })
 }
 
 const deleteDirectoryFiles = (directoryPathAndName) => {
